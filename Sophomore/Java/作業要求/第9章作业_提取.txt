@@ -1,0 +1,88 @@
+P0001: 一、填空题
+P0002: 1. 当希望一个类中的成员不能在类的外部访问时，应使用_____________修饰符定义该成员。
+P0003: 2. 使用___________修饰符定义的类成员，可以通过类直接访问而不需要创建对象后再访问。
+P0004: 3. 类的中一个成员是一个类的对象时，如果该成员没有被初始化，则该对象的初始值是_________。
+P0005: 4. 在类的非静态成员函数中，使用________________关键字来表示当前调用该函数的对象。
+P0006: 5. 假设A为一个类，则执行A [] array = new A[10];语句时，一共调用_________次A的构造函数。
+P0007: 单项选择题
+P0008: 1. 下面关于构造函数的说法不正确的是_________。
+P0009: A. 构造函数的调用时机是实例化对象时
+P0010: B. 一个类必须且只能定义一个构造函数
+P0011: C. 一个类可以不定义构造函数
+P0012: D. 构造函数一定要和类名相同, 并且不能有返回值
+P0013: 2. 下列哪个修饰符可以使在一个类中定义的成员变量只能被同一包中的类访问？ A．private B．无修饰符 C．public D．protected
+P0014: 3. 给出下列代码，如何使成员变量m 被方法fun（）直接访问_________。class Test { private int m; public static void fun（） { ... } } A．将private int m 改为protected int m B．将private int m 改为 public int m C．将private int m 改为 static int m D．将private int m 改为 int m
+P0015: 4. 对于class A，如果在另一个包中的class B中，语句 A a = new A( ); a.m=10;成立，则下列定义正确的是______。
+P0016: A．class A {  int m; }              B．class A {public int m; }
+P0017: C．public class A{ public int m; }     D．public class A { int m; }
+P0018: 5. 关于下面程序，说法正确的是_________。
+P0019: class AA{
+P0020: private long i = 0;
+P0021: AA(int i){
+P0022: this.i =i;
+P0023: }
+P0024: String AA(long i) {
+P0025: this.i = i;
+P0026: return  "i = " + this.i;
+P0027: }
+P0028: }
+P0029: public class Test_1_6 {
+P0030: public static void main(String[] args) {
+P0031: System.out.println(new AA(10).AA(20));
+P0032: }
+P0033: }
+P0034: A. 以上代码编译出错，一个类的构造函数不能有返回值；
+P0035: B. 以上代码编译通过，输出结果为i = 10;
+P0036: C. 以上代码编译通过，输出结果为i = 20;
+P0037: D. 以上代码编译出错，一个类的构造函数不能重载；
+P0038: 6. 对于以下代码，说法正确的是_________。
+P0039: package homework.ch9.p1;
+P0040: public class A {
+P0041:     private int i = 0;
+P0042:     protected int j = 0;
+P0043: }
+P0044: package homework.ch9.p2;
+P0045: import homework.ch9.p1.A;
+P0046: public class B extends A {
+P0047:     public void m() {
+P0048:         new A().j = 10;
+P0049:         this.j = 10;
+P0050:     }
+P0051: }A．new A().j = 10; 有编译错误，在方法m里无法访问new A().j ;this.j无编译错误，在方法m里可以访问this.j;             
+P0052: B．new A().j = 10; 无编译错误，在方法m里可以访问new A().j ;this.j有编译错误，在方法m里不可以访问this.j;
+P0053: C．new A().j = 10; 无编译错误，在方法m里可以访问new A().j ;this.j无编译错误，在方法m里可以访问this.j;    
+P0054: D．new A().j = 10; 有编译错误，在方法m里不可以访问new B().j ;this.j有编译错误，在方法m里不可以访问this.j;
+P0055: 三、判断对错题
+P0056: 1. 若a是类A的实例化对象，且a.fun();能顺利执行，则函数fun一定是实例方法。(  )
+P0057: 2. protected修饰的类成员只能被其子类访问。(  )
+P0058: 3. 类的静态变量被该类的所有实例共享。(  )
+P0059: 4. Double类型的变量是值类型。(  )
+P0060: 5. 当类的实例方法的形参变量与类的实例变量同名时，优先访问形参变量。(  )
+P0061: 四、阅读下列程序，写出输出结果：
+P0062: public class Circle 
+P0063: {
+P0064: private double radius; 
+P0065: public static int count = 0;
+P0066: public Circle(double r){
+P0067: radius = r;
+P0068: count ++;
+P0069: }
+P0070: public Circle(){
+P0071: this(1.0);
+P0072: }
+P0073: public static void main(String[] args) 
+P0074: {
+P0075: Circle c1 = new Circle ();
+P0076: Circle c2 = new Circle (15.0);
+P0077: c1. count ++;
+P0078: c2. count ++;
+P0079: Circle. count ++;
+P0080: System.out.println("count ="+ count);
+P0081: }
+P0082: }
+P0083: 输出结果为________________________。
+P0084: 五、编程题
+P0085: 1. 教材9.8题。
+P0086: 要求：除了提交工程文件外，请给出运行结果屏幕截图并放在Word文档里提交。
+P0087: Tips：在IDEA里可以产生实现好的类的UML图。首先点击settings
+P0088: 然后选择一个类，点击鼠标右键。可以将生成的Diagram导出到图片里。

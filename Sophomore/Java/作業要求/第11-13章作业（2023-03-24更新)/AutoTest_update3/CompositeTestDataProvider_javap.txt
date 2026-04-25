@@ -1,0 +1,1115 @@
+Compiled from "CompositeTestDataProvider.java"
+public class homework.ch11_13.CompositeTestDataProvider {
+  public homework.ch11_13.CompositeTestDataProvider();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static java.lang.Object[][] testAtomicComponent(java.lang.reflect.Method);
+    Code:
+       0: aconst_null
+       1: astore_1
+       2: iconst_1
+       3: istore_2
+       4: ldc           #7                  // String key board
+       6: astore_3
+       7: ldc2_w        #9                  // double 5.0d
+      10: dstore        4
+      12: new           #11                 // class homework/ch11_13/p4/AtomicComponent
+      15: dup
+      16: iload_2
+      17: aload_3
+      18: dload         4
+      20: invokespecial #13                 // Method homework/ch11_13/p4/AtomicComponent."<init>":(ILjava/lang/String;D)V
+      23: astore        6
+      25: aload_0
+      26: invokevirtual #16                 // Method java/lang/reflect/Method.getName:()Ljava/lang/String;
+      29: ldc           #22                 // String testGetId
+      31: invokevirtual #24                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+      34: ifeq          64
+      37: iconst_1
+      38: anewarray     #30                 // class "[Ljava/lang/Object;"
+      41: dup
+      42: iconst_0
+      43: iconst_2
+      44: anewarray     #2                  // class java/lang/Object
+      47: dup
+      48: iconst_0
+      49: aload         6
+      51: aastore
+      52: dup
+      53: iconst_1
+      54: iload_2
+      55: invokestatic  #32                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+      58: aastore
+      59: aastore
+      60: astore_1
+      61: goto          491
+      64: aload_0
+      65: invokevirtual #16                 // Method java/lang/reflect/Method.getName:()Ljava/lang/String;
+      68: ldc           #38                 // String testSetId
+      70: invokevirtual #24                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+      73: ifeq          113
+      76: bipush        10
+      78: istore        7
+      80: iconst_1
+      81: anewarray     #30                 // class "[Ljava/lang/Object;"
+      84: dup
+      85: iconst_0
+      86: iconst_2
+      87: anewarray     #2                  // class java/lang/Object
+      90: dup
+      91: iconst_0
+      92: new           #11                 // class homework/ch11_13/p4/AtomicComponent
+      95: dup
+      96: invokespecial #40                 // Method homework/ch11_13/p4/AtomicComponent."<init>":()V
+      99: aastore
+     100: dup
+     101: iconst_1
+     102: iload         7
+     104: invokestatic  #32                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+     107: aastore
+     108: aastore
+     109: astore_1
+     110: goto          491
+     113: aload_0
+     114: invokevirtual #16                 // Method java/lang/reflect/Method.getName:()Ljava/lang/String;
+     117: ldc           #41                 // String testGetName
+     119: invokevirtual #24                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     122: ifeq          149
+     125: iconst_1
+     126: anewarray     #30                 // class "[Ljava/lang/Object;"
+     129: dup
+     130: iconst_0
+     131: iconst_2
+     132: anewarray     #2                  // class java/lang/Object
+     135: dup
+     136: iconst_0
+     137: aload         6
+     139: aastore
+     140: dup
+     141: iconst_1
+     142: aload_3
+     143: aastore
+     144: aastore
+     145: astore_1
+     146: goto          491
+     149: aload_0
+     150: invokevirtual #16                 // Method java/lang/reflect/Method.getName:()Ljava/lang/String;
+     153: ldc           #43                 // String testSetName
+     155: invokevirtual #24                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     158: ifeq          195
+     161: ldc           #45                 // String key board 1
+     163: astore        7
+     165: iconst_1
+     166: anewarray     #30                 // class "[Ljava/lang/Object;"
+     169: dup
+     170: iconst_0
+     171: iconst_2
+     172: anewarray     #2                  // class java/lang/Object
+     175: dup
+     176: iconst_0
+     177: new           #11                 // class homework/ch11_13/p4/AtomicComponent
+     180: dup
+     181: invokespecial #40                 // Method homework/ch11_13/p4/AtomicComponent."<init>":()V
+     184: aastore
+     185: dup
+     186: iconst_1
+     187: aload         7
+     189: aastore
+     190: aastore
+     191: astore_1
+     192: goto          491
+     195: aload_0
+     196: invokevirtual #16                 // Method java/lang/reflect/Method.getName:()Ljava/lang/String;
+     199: ldc           #47                 // String testGetPrice
+     201: invokevirtual #24                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     204: ifeq          235
+     207: iconst_1
+     208: anewarray     #30                 // class "[Ljava/lang/Object;"
+     211: dup
+     212: iconst_0
+     213: iconst_2
+     214: anewarray     #2                  // class java/lang/Object
+     217: dup
+     218: iconst_0
+     219: aload         6
+     221: aastore
+     222: dup
+     223: iconst_1
+     224: dload         4
+     226: invokestatic  #49                 // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+     229: aastore
+     230: aastore
+     231: astore_1
+     232: goto          491
+     235: aload_0
+     236: invokevirtual #16                 // Method java/lang/reflect/Method.getName:()Ljava/lang/String;
+     239: ldc           #54                 // String testSetPrice
+     241: invokevirtual #24                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     244: ifeq          285
+     247: ldc2_w        #56                 // double 10.0d
+     250: dstore        7
+     252: iconst_1
+     253: anewarray     #30                 // class "[Ljava/lang/Object;"
+     256: dup
+     257: iconst_0
+     258: iconst_2
+     259: anewarray     #2                  // class java/lang/Object
+     262: dup
+     263: iconst_0
+     264: new           #11                 // class homework/ch11_13/p4/AtomicComponent
+     267: dup
+     268: invokespecial #40                 // Method homework/ch11_13/p4/AtomicComponent."<init>":()V
+     271: aastore
+     272: dup
+     273: iconst_1
+     274: dload         7
+     276: invokestatic  #49                 // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+     279: aastore
+     280: aastore
+     281: astore_1
+     282: goto          491
+     285: aload_0
+     286: invokevirtual #16                 // Method java/lang/reflect/Method.getName:()Ljava/lang/String;
+     289: ldc           #58                 // String testTestToString
+     291: invokevirtual #24                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     294: ifeq          343
+     297: iconst_1
+     298: anewarray     #30                 // class "[Ljava/lang/Object;"
+     301: dup
+     302: iconst_0
+     303: iconst_2
+     304: anewarray     #2                  // class java/lang/Object
+     307: dup
+     308: iconst_0
+     309: aload         6
+     311: aastore
+     312: dup
+     313: iconst_1
+     314: iconst_3
+     315: anewarray     #25                 // class java/lang/String
+     318: dup
+     319: iconst_0
+     320: iload_2
+     321: invokestatic  #60                 // Method java/lang/Integer.toString:(I)Ljava/lang/String;
+     324: aastore
+     325: dup
+     326: iconst_1
+     327: aload_3
+     328: aastore
+     329: dup
+     330: iconst_2
+     331: dload         4
+     333: invokestatic  #64                 // Method java/lang/Double.toString:(D)Ljava/lang/String;
+     336: aastore
+     337: aastore
+     338: aastore
+     339: astore_1
+     340: goto          491
+     343: aload_0
+     344: invokevirtual #16                 // Method java/lang/reflect/Method.getName:()Ljava/lang/String;
+     347: ldc           #67                 // String testAdd
+     349: invokevirtual #24                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     352: ifeq          380
+     355: iconst_1
+     356: anewarray     #30                 // class "[Ljava/lang/Object;"
+     359: dup
+     360: iconst_0
+     361: iconst_2
+     362: anewarray     #2                  // class java/lang/Object
+     365: dup
+     366: iconst_0
+     367: aload         6
+     369: aastore
+     370: dup
+     371: iconst_1
+     372: aload         6
+     374: aastore
+     375: aastore
+     376: astore_1
+     377: goto          491
+     380: aload_0
+     381: invokevirtual #16                 // Method java/lang/reflect/Method.getName:()Ljava/lang/String;
+     384: ldc           #69                 // String testRemove
+     386: invokevirtual #24                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     389: ifeq          417
+     392: iconst_1
+     393: anewarray     #30                 // class "[Ljava/lang/Object;"
+     396: dup
+     397: iconst_0
+     398: iconst_2
+     399: anewarray     #2                  // class java/lang/Object
+     402: dup
+     403: iconst_0
+     404: aload         6
+     406: aastore
+     407: dup
+     408: iconst_1
+     409: aload         6
+     411: aastore
+     412: aastore
+     413: astore_1
+     414: goto          491
+     417: aload_0
+     418: invokevirtual #16                 // Method java/lang/reflect/Method.getName:()Ljava/lang/String;
+     421: ldc           #71                 // String testCalcPrice
+     423: invokevirtual #24                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     426: ifeq          457
+     429: iconst_1
+     430: anewarray     #30                 // class "[Ljava/lang/Object;"
+     433: dup
+     434: iconst_0
+     435: iconst_2
+     436: anewarray     #2                  // class java/lang/Object
+     439: dup
+     440: iconst_0
+     441: aload         6
+     443: aastore
+     444: dup
+     445: iconst_1
+     446: dload         4
+     448: invokestatic  #49                 // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+     451: aastore
+     452: aastore
+     453: astore_1
+     454: goto          491
+     457: aload_0
+     458: invokevirtual #16                 // Method java/lang/reflect/Method.getName:()Ljava/lang/String;
+     461: ldc           #73                 // String testIterator
+     463: invokevirtual #24                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     466: ifeq          491
+     469: iconst_1
+     470: anewarray     #30                 // class "[Ljava/lang/Object;"
+     473: dup
+     474: iconst_0
+     475: iconst_2
+     476: anewarray     #2                  // class java/lang/Object
+     479: dup
+     480: iconst_0
+     481: aload         6
+     483: aastore
+     484: dup
+     485: iconst_1
+     486: ldc           #75                 // class homework/ch11_13/p4/NullIterator
+     488: aastore
+     489: aastore
+     490: astore_1
+     491: aload_1
+     492: areturn
+
+  public static java.lang.Object[][] testComponentList(java.lang.reflect.Method);
+    Code:
+       0: aconst_null
+       1: astore_1
+       2: new           #77                 // class homework/ch11_13/p4/ComponentList
+       5: dup
+       6: invokespecial #79                 // Method homework/ch11_13/p4/ComponentList."<init>":()V
+       9: astore_2
+      10: new           #77                 // class homework/ch11_13/p4/ComponentList
+      13: dup
+      14: invokespecial #79                 // Method homework/ch11_13/p4/ComponentList."<init>":()V
+      17: astore_3
+      18: iconst_1
+      19: istore        4
+      21: ldc           #7                  // String key board
+      23: astore        5
+      25: dconst_1
+      26: dstore        6
+      28: new           #11                 // class homework/ch11_13/p4/AtomicComponent
+      31: dup
+      32: iload         4
+      34: aload         5
+      36: dload         6
+      38: invokespecial #13                 // Method homework/ch11_13/p4/AtomicComponent."<init>":(ILjava/lang/String;D)V
+      41: astore        8
+      43: iconst_2
+      44: istore        9
+      46: ldc           #80                 // String mouse
+      48: astore        10
+      50: ldc2_w        #9                  // double 5.0d
+      53: dstore        11
+      55: new           #11                 // class homework/ch11_13/p4/AtomicComponent
+      58: dup
+      59: iload         9
+      61: aload         10
+      63: dload         11
+      65: invokespecial #13                 // Method homework/ch11_13/p4/AtomicComponent."<init>":(ILjava/lang/String;D)V
+      68: astore        13
+      70: aload_3
+      71: aload         8
+      73: invokevirtual #82                 // Method homework/ch11_13/p4/ComponentList.add:(Ljava/lang/Object;)Z
+      76: pop
+      77: aload_3
+      78: aload         13
+      80: invokevirtual #82                 // Method homework/ch11_13/p4/ComponentList.add:(Ljava/lang/Object;)Z
+      83: pop
+      84: aload_0
+      85: invokevirtual #16                 // Method java/lang/reflect/Method.getName:()Ljava/lang/String;
+      88: ldc           #85                 // String testGetIterator
+      90: invokevirtual #24                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+      93: ifeq          129
+      96: iconst_1
+      97: anewarray     #30                 // class "[Ljava/lang/Object;"
+     100: dup
+     101: iconst_0
+     102: iconst_2
+     103: anewarray     #2                  // class java/lang/Object
+     106: dup
+     107: iconst_0
+     108: aload_3
+     109: aastore
+     110: dup
+     111: iconst_1
+     112: iconst_2
+     113: anewarray     #87                 // class homework/ch11_13/p4/Component
+     116: dup
+     117: iconst_0
+     118: aload         8
+     120: aastore
+     121: dup
+     122: iconst_1
+     123: aload         13
+     125: aastore
+     126: aastore
+     127: aastore
+     128: astore_1
+     129: aload_1
+     130: areturn
+
+  public static java.lang.Object[][] testCompositeComponent(java.lang.reflect.Method);
+    Code:
+       0: aconst_null
+       1: astore_1
+       2: iconst_0
+       3: istore_2
+       4: ldc           #89                 // String aaa1
+       6: astore_3
+       7: ldc           #91                 // String aaa2
+       9: astore        4
+      11: ldc           #93                 // String aaa3
+      13: astore        5
+      15: ldc           #95                 // String aaa4
+      17: astore        6
+      19: ldc2_w        #9                  // double 5.0d
+      22: dstore        7
+      24: ldc2_w        #56                 // double 10.0d
+      27: dstore        9
+      29: ldc2_w        #97                 // double 15.0d
+      32: dstore        11
+      34: ldc2_w        #99                 // double 25.0d
+      37: dstore        13
+      39: new           #11                 // class homework/ch11_13/p4/AtomicComponent
+      42: dup
+      43: iload_2
+      44: iinc          2, 1
+      47: aload_3
+      48: dload         7
+      50: invokespecial #13                 // Method homework/ch11_13/p4/AtomicComponent."<init>":(ILjava/lang/String;D)V
+      53: astore        15
+      55: new           #11                 // class homework/ch11_13/p4/AtomicComponent
+      58: dup
+      59: iload_2
+      60: iinc          2, 1
+      63: aload         4
+      65: dload         9
+      67: invokespecial #13                 // Method homework/ch11_13/p4/AtomicComponent."<init>":(ILjava/lang/String;D)V
+      70: astore        16
+      72: new           #11                 // class homework/ch11_13/p4/AtomicComponent
+      75: dup
+      76: iload_2
+      77: iinc          2, 1
+      80: aload         5
+      82: dload         11
+      84: invokespecial #13                 // Method homework/ch11_13/p4/AtomicComponent."<init>":(ILjava/lang/String;D)V
+      87: astore        17
+      89: new           #11                 // class homework/ch11_13/p4/AtomicComponent
+      92: dup
+      93: iload_2
+      94: iinc          2, 1
+      97: aload         6
+      99: dload         13
+     101: invokespecial #13                 // Method homework/ch11_13/p4/AtomicComponent."<init>":(ILjava/lang/String;D)V
+     104: astore        18
+     106: ldc           #101                // String ccc1
+     108: astore        19
+     110: ldc           #103                // String ccc2
+     112: astore        20
+     114: ldc           #105                // String ccc3
+     116: astore        21
+     118: new           #107                // class homework/ch11_13/p4/CompositeComponent
+     121: dup
+     122: iload_2
+     123: iinc          2, 1
+     126: aload         19
+     128: ldc2_w        #56                 // double 10.0d
+     131: invokespecial #109                // Method homework/ch11_13/p4/CompositeComponent."<init>":(ILjava/lang/String;D)V
+     134: astore        22
+     136: new           #107                // class homework/ch11_13/p4/CompositeComponent
+     139: dup
+     140: iload_2
+     141: iinc          2, 1
+     144: aload         20
+     146: ldc2_w        #56                 // double 10.0d
+     149: invokespecial #109                // Method homework/ch11_13/p4/CompositeComponent."<init>":(ILjava/lang/String;D)V
+     152: astore        23
+     154: ldc           #110                // String root
+     156: astore        24
+     158: new           #107                // class homework/ch11_13/p4/CompositeComponent
+     161: dup
+     162: iload_2
+     163: iinc          2, 1
+     166: aload         24
+     168: ldc2_w        #112                // double 100.0d
+     171: invokespecial #109                // Method homework/ch11_13/p4/CompositeComponent."<init>":(ILjava/lang/String;D)V
+     174: astore        25
+     176: aload_0
+     177: invokevirtual #16                 // Method java/lang/reflect/Method.getName:()Ljava/lang/String;
+     180: ldc           #47                 // String testGetPrice
+     182: invokevirtual #24                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     185: ifeq          299
+     188: aload         22
+     190: aload         15
+     192: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     195: aload         22
+     197: aload         16
+     199: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     202: aload         22
+     204: aload         23
+     206: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     209: aload         23
+     211: aload         17
+     213: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     216: aload         23
+     218: aload         18
+     220: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     223: iconst_3
+     224: anewarray     #30                 // class "[Ljava/lang/Object;"
+     227: dup
+     228: iconst_0
+     229: iconst_2
+     230: anewarray     #2                  // class java/lang/Object
+     233: dup
+     234: iconst_0
+     235: aload         15
+     237: aastore
+     238: dup
+     239: iconst_1
+     240: dload         7
+     242: invokestatic  #49                 // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+     245: aastore
+     246: aastore
+     247: dup
+     248: iconst_1
+     249: iconst_2
+     250: anewarray     #2                  // class java/lang/Object
+     253: dup
+     254: iconst_0
+     255: aload         25
+     257: aastore
+     258: dup
+     259: iconst_1
+     260: dconst_0
+     261: invokestatic  #49                 // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+     264: aastore
+     265: aastore
+     266: dup
+     267: iconst_2
+     268: iconst_2
+     269: anewarray     #2                  // class java/lang/Object
+     272: dup
+     273: iconst_0
+     274: aload         22
+     276: aastore
+     277: dup
+     278: iconst_1
+     279: dload         7
+     281: dload         9
+     283: dadd
+     284: dload         11
+     286: dadd
+     287: dload         13
+     289: dadd
+     290: invokestatic  #49                 // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+     293: aastore
+     294: aastore
+     295: astore_1
+     296: goto          837
+     299: aload_0
+     300: invokevirtual #16                 // Method java/lang/reflect/Method.getName:()Ljava/lang/String;
+     303: ldc           #58                 // String testTestToString
+     305: invokevirtual #24                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     308: ifeq          429
+     311: aload         22
+     313: aload         15
+     315: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     318: aload         22
+     320: aload         16
+     322: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     325: aload         22
+     327: aload         23
+     329: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     332: aload         23
+     334: aload         17
+     336: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     339: aload         23
+     341: aload         18
+     343: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     346: aload         25
+     348: aload         22
+     350: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     353: iconst_1
+     354: anewarray     #30                 // class "[Ljava/lang/Object;"
+     357: dup
+     358: iconst_0
+     359: iconst_2
+     360: anewarray     #2                  // class java/lang/Object
+     363: dup
+     364: iconst_0
+     365: aload         25
+     367: aastore
+     368: dup
+     369: iconst_1
+     370: bipush        6
+     372: anewarray     #25                 // class java/lang/String
+     375: dup
+     376: iconst_0
+     377: aload         22
+     379: invokevirtual #117                // Method homework/ch11_13/p4/Component.toString:()Ljava/lang/String;
+     382: aastore
+     383: dup
+     384: iconst_1
+     385: aload         23
+     387: invokevirtual #117                // Method homework/ch11_13/p4/Component.toString:()Ljava/lang/String;
+     390: aastore
+     391: dup
+     392: iconst_2
+     393: aload         15
+     395: invokevirtual #117                // Method homework/ch11_13/p4/Component.toString:()Ljava/lang/String;
+     398: aastore
+     399: dup
+     400: iconst_3
+     401: aload         16
+     403: invokevirtual #117                // Method homework/ch11_13/p4/Component.toString:()Ljava/lang/String;
+     406: aastore
+     407: dup
+     408: iconst_4
+     409: aload         17
+     411: invokevirtual #117                // Method homework/ch11_13/p4/Component.toString:()Ljava/lang/String;
+     414: aastore
+     415: dup
+     416: iconst_5
+     417: aload         18
+     419: invokevirtual #117                // Method homework/ch11_13/p4/Component.toString:()Ljava/lang/String;
+     422: aastore
+     423: aastore
+     424: aastore
+     425: astore_1
+     426: goto          837
+     429: aload_0
+     430: invokevirtual #16                 // Method java/lang/reflect/Method.getName:()Ljava/lang/String;
+     433: ldc           #67                 // String testAdd
+     435: invokevirtual #24                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     438: ifeq          536
+     441: iconst_3
+     442: anewarray     #30                 // class "[Ljava/lang/Object;"
+     445: dup
+     446: iconst_0
+     447: iconst_2
+     448: anewarray     #2                  // class java/lang/Object
+     451: dup
+     452: iconst_0
+     453: aload         22
+     455: aastore
+     456: dup
+     457: iconst_1
+     458: iconst_3
+     459: anewarray     #87                 // class homework/ch11_13/p4/Component
+     462: dup
+     463: iconst_0
+     464: aload         15
+     466: aastore
+     467: dup
+     468: iconst_1
+     469: aload         16
+     471: aastore
+     472: dup
+     473: iconst_2
+     474: aload         23
+     476: aastore
+     477: aastore
+     478: aastore
+     479: dup
+     480: iconst_1
+     481: iconst_2
+     482: anewarray     #2                  // class java/lang/Object
+     485: dup
+     486: iconst_0
+     487: aload         23
+     489: aastore
+     490: dup
+     491: iconst_1
+     492: iconst_2
+     493: anewarray     #87                 // class homework/ch11_13/p4/Component
+     496: dup
+     497: iconst_0
+     498: aload         17
+     500: aastore
+     501: dup
+     502: iconst_1
+     503: aload         18
+     505: aastore
+     506: aastore
+     507: aastore
+     508: dup
+     509: iconst_2
+     510: iconst_2
+     511: anewarray     #2                  // class java/lang/Object
+     514: dup
+     515: iconst_0
+     516: aload         25
+     518: aastore
+     519: dup
+     520: iconst_1
+     521: iconst_1
+     522: anewarray     #87                 // class homework/ch11_13/p4/Component
+     525: dup
+     526: iconst_0
+     527: aload         22
+     529: aastore
+     530: aastore
+     531: aastore
+     532: astore_1
+     533: goto          837
+     536: aload_0
+     537: invokevirtual #16                 // Method java/lang/reflect/Method.getName:()Ljava/lang/String;
+     540: ldc           #69                 // String testRemove
+     542: invokevirtual #24                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     545: ifeq          685
+     548: aload         22
+     550: aload         15
+     552: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     555: aload         22
+     557: aload         16
+     559: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     562: aload         22
+     564: aload         23
+     566: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     569: aload         23
+     571: aload         17
+     573: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     576: aload         23
+     578: aload         18
+     580: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     583: aload         25
+     585: aload         22
+     587: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     590: iconst_3
+     591: anewarray     #30                 // class "[Ljava/lang/Object;"
+     594: dup
+     595: iconst_0
+     596: iconst_2
+     597: anewarray     #2                  // class java/lang/Object
+     600: dup
+     601: iconst_0
+     602: aload         23
+     604: aastore
+     605: dup
+     606: iconst_1
+     607: iconst_2
+     608: anewarray     #87                 // class homework/ch11_13/p4/Component
+     611: dup
+     612: iconst_0
+     613: aload         17
+     615: aastore
+     616: dup
+     617: iconst_1
+     618: aload         18
+     620: aastore
+     621: aastore
+     622: aastore
+     623: dup
+     624: iconst_1
+     625: iconst_2
+     626: anewarray     #2                  // class java/lang/Object
+     629: dup
+     630: iconst_0
+     631: aload         22
+     633: aastore
+     634: dup
+     635: iconst_1
+     636: iconst_3
+     637: anewarray     #87                 // class homework/ch11_13/p4/Component
+     640: dup
+     641: iconst_0
+     642: aload         15
+     644: aastore
+     645: dup
+     646: iconst_1
+     647: aload         16
+     649: aastore
+     650: dup
+     651: iconst_2
+     652: aload         23
+     654: aastore
+     655: aastore
+     656: aastore
+     657: dup
+     658: iconst_2
+     659: iconst_2
+     660: anewarray     #2                  // class java/lang/Object
+     663: dup
+     664: iconst_0
+     665: aload         25
+     667: aastore
+     668: dup
+     669: iconst_1
+     670: iconst_1
+     671: anewarray     #87                 // class homework/ch11_13/p4/Component
+     674: dup
+     675: iconst_0
+     676: aload         22
+     678: aastore
+     679: aastore
+     680: aastore
+     681: astore_1
+     682: goto          837
+     685: aload_0
+     686: invokevirtual #16                 // Method java/lang/reflect/Method.getName:()Ljava/lang/String;
+     689: ldc           #71                 // String testCalcPrice
+     691: invokevirtual #24                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     694: ifeq          808
+     697: aload         22
+     699: aload         15
+     701: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     704: aload         22
+     706: aload         16
+     708: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     711: aload         22
+     713: aload         23
+     715: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     718: aload         23
+     720: aload         17
+     722: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     725: aload         23
+     727: aload         18
+     729: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     732: iconst_3
+     733: anewarray     #30                 // class "[Ljava/lang/Object;"
+     736: dup
+     737: iconst_0
+     738: iconst_2
+     739: anewarray     #2                  // class java/lang/Object
+     742: dup
+     743: iconst_0
+     744: aload         15
+     746: aastore
+     747: dup
+     748: iconst_1
+     749: dload         7
+     751: invokestatic  #49                 // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+     754: aastore
+     755: aastore
+     756: dup
+     757: iconst_1
+     758: iconst_2
+     759: anewarray     #2                  // class java/lang/Object
+     762: dup
+     763: iconst_0
+     764: aload         25
+     766: aastore
+     767: dup
+     768: iconst_1
+     769: dconst_0
+     770: invokestatic  #49                 // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+     773: aastore
+     774: aastore
+     775: dup
+     776: iconst_2
+     777: iconst_2
+     778: anewarray     #2                  // class java/lang/Object
+     781: dup
+     782: iconst_0
+     783: aload         22
+     785: aastore
+     786: dup
+     787: iconst_1
+     788: dload         7
+     790: dload         9
+     792: dadd
+     793: dload         11
+     795: dadd
+     796: dload         13
+     798: dadd
+     799: invokestatic  #49                 // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+     802: aastore
+     803: aastore
+     804: astore_1
+     805: goto          837
+     808: aload_0
+     809: invokevirtual #16                 // Method java/lang/reflect/Method.getName:()Ljava/lang/String;
+     812: ldc           #73                 // String testIterator
+     814: invokevirtual #24                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     817: ifeq          837
+     820: iconst_1
+     821: anewarray     #30                 // class "[Ljava/lang/Object;"
+     824: dup
+     825: iconst_0
+     826: iconst_1
+     827: anewarray     #2                  // class java/lang/Object
+     830: dup
+     831: iconst_0
+     832: aload         22
+     834: aastore
+     835: aastore
+     836: astore_1
+     837: aload_1
+     838: areturn
+
+  public static java.lang.Object[][] testNullIterator(java.lang.reflect.Method);
+    Code:
+       0: aconst_null
+       1: astore_1
+       2: aload_0
+       3: invokevirtual #16                 // Method java/lang/reflect/Method.getName:()Ljava/lang/String;
+       6: ldc           #119                // String testHasNext
+       8: invokevirtual #24                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+      11: ifeq          39
+      14: iconst_1
+      15: anewarray     #30                 // class "[Ljava/lang/Object;"
+      18: dup
+      19: iconst_0
+      20: iconst_1
+      21: anewarray     #2                  // class java/lang/Object
+      24: dup
+      25: iconst_0
+      26: new           #75                 // class homework/ch11_13/p4/NullIterator
+      29: dup
+      30: invokespecial #121                // Method homework/ch11_13/p4/NullIterator."<init>":()V
+      33: aastore
+      34: aastore
+      35: astore_1
+      36: goto          73
+      39: aload_0
+      40: invokevirtual #16                 // Method java/lang/reflect/Method.getName:()Ljava/lang/String;
+      43: ldc           #122                // String testNext
+      45: invokevirtual #24                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+      48: ifeq          73
+      51: iconst_1
+      52: anewarray     #30                 // class "[Ljava/lang/Object;"
+      55: dup
+      56: iconst_0
+      57: iconst_1
+      58: anewarray     #2                  // class java/lang/Object
+      61: dup
+      62: iconst_0
+      63: new           #75                 // class homework/ch11_13/p4/NullIterator
+      66: dup
+      67: invokespecial #121                // Method homework/ch11_13/p4/NullIterator."<init>":()V
+      70: aastore
+      71: aastore
+      72: astore_1
+      73: aload_1
+      74: areturn
+
+  public static java.lang.Object[][] testCompositeIterator(java.lang.reflect.Method);
+    Code:
+       0: aconst_null
+       1: astore_1
+       2: iconst_0
+       3: istore_2
+       4: ldc           #89                 // String aaa1
+       6: astore_3
+       7: ldc           #91                 // String aaa2
+       9: astore        4
+      11: ldc           #93                 // String aaa3
+      13: astore        5
+      15: ldc           #95                 // String aaa4
+      17: astore        6
+      19: ldc2_w        #9                  // double 5.0d
+      22: dstore        7
+      24: ldc2_w        #56                 // double 10.0d
+      27: dstore        9
+      29: ldc2_w        #97                 // double 15.0d
+      32: dstore        11
+      34: ldc2_w        #99                 // double 25.0d
+      37: dstore        13
+      39: new           #11                 // class homework/ch11_13/p4/AtomicComponent
+      42: dup
+      43: iload_2
+      44: iinc          2, 1
+      47: aload_3
+      48: dload         7
+      50: invokespecial #13                 // Method homework/ch11_13/p4/AtomicComponent."<init>":(ILjava/lang/String;D)V
+      53: astore        15
+      55: new           #11                 // class homework/ch11_13/p4/AtomicComponent
+      58: dup
+      59: iload_2
+      60: iinc          2, 1
+      63: aload         4
+      65: dload         9
+      67: invokespecial #13                 // Method homework/ch11_13/p4/AtomicComponent."<init>":(ILjava/lang/String;D)V
+      70: astore        16
+      72: new           #11                 // class homework/ch11_13/p4/AtomicComponent
+      75: dup
+      76: iload_2
+      77: iinc          2, 1
+      80: aload         5
+      82: dload         11
+      84: invokespecial #13                 // Method homework/ch11_13/p4/AtomicComponent."<init>":(ILjava/lang/String;D)V
+      87: astore        17
+      89: new           #11                 // class homework/ch11_13/p4/AtomicComponent
+      92: dup
+      93: iload_2
+      94: iinc          2, 1
+      97: aload         6
+      99: dload         13
+     101: invokespecial #13                 // Method homework/ch11_13/p4/AtomicComponent."<init>":(ILjava/lang/String;D)V
+     104: astore        18
+     106: ldc           #101                // String ccc1
+     108: astore        19
+     110: ldc           #103                // String ccc2
+     112: astore        20
+     114: ldc           #105                // String ccc3
+     116: astore        21
+     118: new           #107                // class homework/ch11_13/p4/CompositeComponent
+     121: dup
+     122: iload_2
+     123: iinc          2, 1
+     126: aload         19
+     128: ldc2_w        #56                 // double 10.0d
+     131: invokespecial #109                // Method homework/ch11_13/p4/CompositeComponent."<init>":(ILjava/lang/String;D)V
+     134: astore        22
+     136: new           #107                // class homework/ch11_13/p4/CompositeComponent
+     139: dup
+     140: iload_2
+     141: iinc          2, 1
+     144: aload         20
+     146: ldc2_w        #56                 // double 10.0d
+     149: invokespecial #109                // Method homework/ch11_13/p4/CompositeComponent."<init>":(ILjava/lang/String;D)V
+     152: astore        23
+     154: ldc           #110                // String root
+     156: astore        24
+     158: new           #107                // class homework/ch11_13/p4/CompositeComponent
+     161: dup
+     162: iload_2
+     163: iinc          2, 1
+     166: aload         24
+     168: ldc2_w        #112                // double 100.0d
+     171: invokespecial #109                // Method homework/ch11_13/p4/CompositeComponent."<init>":(ILjava/lang/String;D)V
+     174: astore        25
+     176: aload         22
+     178: aload         15
+     180: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     183: aload         22
+     185: aload         16
+     187: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     190: aload         22
+     192: aload         23
+     194: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     197: aload         23
+     199: aload         17
+     201: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     204: aload         23
+     206: aload         18
+     208: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     211: aload         25
+     213: aload         22
+     215: invokevirtual #114                // Method homework/ch11_13/p4/Component.add:(Lhomework/ch11_13/p4/Component;)V
+     218: aload_0
+     219: invokevirtual #16                 // Method java/lang/reflect/Method.getName:()Ljava/lang/String;
+     222: ldc           #119                // String testHasNext
+     224: invokevirtual #24                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     227: ifeq          288
+     230: iconst_1
+     231: anewarray     #30                 // class "[Ljava/lang/Object;"
+     234: dup
+     235: iconst_0
+     236: iconst_2
+     237: anewarray     #2                  // class java/lang/Object
+     240: dup
+     241: iconst_0
+     242: aload         25
+     244: aastore
+     245: dup
+     246: iconst_1
+     247: bipush        6
+     249: anewarray     #87                 // class homework/ch11_13/p4/Component
+     252: dup
+     253: iconst_0
+     254: aload         22
+     256: aastore
+     257: dup
+     258: iconst_1
+     259: aload         15
+     261: aastore
+     262: dup
+     263: iconst_2
+     264: aload         16
+     266: aastore
+     267: dup
+     268: iconst_3
+     269: aload         23
+     271: aastore
+     272: dup
+     273: iconst_4
+     274: aload         17
+     276: aastore
+     277: dup
+     278: iconst_5
+     279: aload         18
+     281: aastore
+     282: aastore
+     283: aastore
+     284: astore_1
+     285: goto          355
+     288: aload_0
+     289: invokevirtual #16                 // Method java/lang/reflect/Method.getName:()Ljava/lang/String;
+     292: ldc           #122                // String testNext
+     294: invokevirtual #24                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+     297: ifeq          355
+     300: iconst_1
+     301: anewarray     #30                 // class "[Ljava/lang/Object;"
+     304: dup
+     305: iconst_0
+     306: iconst_2
+     307: anewarray     #2                  // class java/lang/Object
+     310: dup
+     311: iconst_0
+     312: aload         25
+     314: aastore
+     315: dup
+     316: iconst_1
+     317: bipush        6
+     319: anewarray     #87                 // class homework/ch11_13/p4/Component
+     322: dup
+     323: iconst_0
+     324: aload         22
+     326: aastore
+     327: dup
+     328: iconst_1
+     329: aload         15
+     331: aastore
+     332: dup
+     333: iconst_2
+     334: aload         16
+     336: aastore
+     337: dup
+     338: iconst_3
+     339: aload         23
+     341: aastore
+     342: dup
+     343: iconst_4
+     344: aload         17
+     346: aastore
+     347: dup
+     348: iconst_5
+     349: aload         18
+     351: aastore
+     352: aastore
+     353: aastore
+     354: astore_1
+     355: aload_1
+     356: areturn
+}

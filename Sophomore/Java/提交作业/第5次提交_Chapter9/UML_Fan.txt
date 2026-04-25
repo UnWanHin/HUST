@@ -1,0 +1,20 @@
+Fan (UML Text)
+-----------------------------
++SLOW: int = 1
++MEDIUM: int = 2
++FAST: int = 3
+-speed: int = SLOW
+-on: boolean = false
+-radius: double = 5
+-color: String = "blue"
++Fan()
++getSpeed(): int
++setSpeed(speed: int): void
++isOn(): boolean
++setOn(on: boolean): void
++getRadius(): double
++setRadius(radius: double): void
++getColor(): String
++setColor(color: String): void
++toString(): String
+-----------------------------

@@ -1,0 +1,341 @@
+\documentclass[supercite]{Experimental_Report}
+\title{产生式系统与深度学习方法的比较}
+\author{阮云轩}
+%\coauthor{张三、李四}
+\school{}
+\classnum{智科2402}
+\stunum{U202490035}
+%\costunum{U202115631、U202115631}
+\instructor{冯琪} % 该系列实验报告模板由华科大计院教师陈加忠制作
+\date{2025年12月31日}
+
+\usepackage{algorithm, multirow}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{framed}
+\usepackage{mathtools}
+\usepackage{subcaption}
+\usepackage{xltxtra} %提供了针对XeTeX的改进并且加入了XeTeX的LOGO, 自动调用xunicode宏包(提供Unicode字符宏)
+\usepackage{bm}
+\usepackage{tikz}
+\usepackage{tikzscale}
+\usepackage{pgfplots}
+\usepackage{listings}
+\usepackage{tocloft}
+\usepackage{booktabs} % 用于绘制美观的三线表
+\usepackage{array}    % 用于表格排版
+\usepackage{graphicx} % 如果需要插入图片
+\usepackage{float}    % 用于控制表格位置\documentclass[options]{class}
+%\usepackage{enumerate}
+
+\lstdefinestyle{commonCodeStyle}{
+	language = C, % 假设主要是C语言代码，可按需更改语言类型
+	basicstyle=\ttfamily\footnotesize, % 设置字体为等宽且小一号字体，方便排版
+	breaklines = true, % 自动换行
+	breakatwhitespace = true, % 尽量在空白处换行
+	columns=flexible, % 灵活调整列宽，让代码适应页面宽度
+	numbers=left, % 在代码左侧显示行号
+	numberstyle=\tiny\color{gray}, % 行号的样式，设置为小字号灰色字体
+	keywordstyle=\color{blue}\bfseries, % 关键字样式，加粗蓝色显示
+	commentstyle=\itshape, % 注释样式，斜体绿色显示
+	stringstyle=\color{magenta}, % 字符串样式，紫红色显示
+	showstringspaces=false % 取消显示字符串中的空格，放在正确位置
+}
+
+\lstdefinestyle{mycode}{
+	language = C,
+	basicstyle=\ttfamily,
+	breaklines = true,
+	breakatwhitespace = true,
+	stringstyle=\ttfamily, % 设置字符串的字体风格保持和基本字体一致（等宽字体），这里也可以根据喜好设置其他样式，若不想设置额外样式可不写此行
+	showstringspaces=false % 关键在于这一行，用于取消显示字符串中的空格
+}
+%\usepackage{enumerate}
+
+\pgfplotsset{compat=1.16}
+
+\newcommand{\cfig}[3]{
+	\begin{figure}[htb]
+		\centering
+		\includegraphics[width=#2\textwidth]{images/#1.tikz}
+		\caption{#3}
+		\label{fig:#1}
+	\end{figure}
+}
+
+\newcommand{\sfig}[3]{
+	\begin{subfigure}[b]{#2\textwidth}
+		\includegraphics[width=\textwidth]{images/#1.tikz}
+		\caption{#3}
+		\label{fig:#1}
+	\end{subfigure}
+}
+
+\newcommand{\xfig}[3]{
+	\begin{figure}[htb]
+		\centering
+		#3
+		\caption{#2}
+		\label{fig:#1}
+	\end{figure}
+}
+\renewcommand{\cftlstlistingpresnum}{代码 }
+\renewcommand{\cftlstlistingaftersnum}{:}
+\setlength{\cftlstlistingnumwidth}{3.5em}
+
+\newcommand{\rfig}[1]{\autoref{fig:#1}}
+\newcommand{\ralg}[1]{\autoref{alg:#1}}
+\newcommand{\rthm}[1]{\autoref{thm:#1}}
+\newcommand{\rlem}[1]{\autoref{lem:#1}}
+\newcommand{\reqn}[1]{\autoref{eqn:#1}}
+\newcommand{\rtbl}[1]{\autoref{tbl:#1}}
+
+\algnewcommand\Null{\textsc{null }}
+\algnewcommand\algorithmicinput{\textbf{Input:}}
+\algnewcommand\Input{\item[\algorithmicinput]}
+\algnewcommand\algorithmicoutput{\textbf{Output:}}
+\algnewcommand\Output{\item[\algorithmicoutput]}
+\algnewcommand\algorithmicbreak{\textbf{break}}
+\algnewcommand\Break{\algorithmicbreak}
+\algnewcommand\algorithmiccontinue{\textbf{continue}}
+\algnewcommand\Continue{\algorithmiccontinue}
+\algnewcommand{\LeftCom}[1]{\State $\triangleright$ #1}
+
+\newtheorem{thm}{定理}[section]
+\newtheorem{lem}{引理}[section]
+
+\makeatletter
+% 定义 \subsubsubsection 命令
+\newcommand{\subsubsubsection}{\@startsection{subsubsubsection}{4}{\z@}{-3.25ex plus -1ex minus -.2ex}{1.5ex plus.2ex}{\normalfont\Large\bfseries}}
+% 定义 \subsubsubsubsection 命令
+\newcommand{\subsubsubsubsection}{\@startsection{subsubsubsubsection}{5}{\z@}{-3.25ex plus -1ex minus -.2ex}{1.5ex plus.2ex}{\normalfont\large\bfseries}}
+% 定义 \subsubsubsubsubsection 命令
+\newcommand{\subsubsubsubsubsection}{\@startsection{subsubsubsubsubsection}{6}{\z@}{-3.25ex plus -1ex minus -.2ex}{1.5ex plus.2ex}{\normalfont\normalsize\bfseries}}
+\makeatother
+
+\colorlet{shadecolor}{black!15}
+
+\theoremstyle{definition}
+\newtheorem{alg}{算法}[section]
+
+\def\thmautorefname~#1\null{定理~#1~\null}
+\def\lemautorefname~#1\null{引理~#1~\null}
+\def\algautorefname~#1\null{算法~#1~\null}
+
+\begin{document}
+	
+	\maketitle
+	
+	\clearpage
+	
+	\pagenumbering{Roman}
+	
+	\tableofcontents[level=2]
+	
+	\clearpage
+	
+	\pagenumbering{arabic}
+	
+	\listoflistings
+	
+	\section{引言}
+	本报告旨在通过「猫狗图像识别」这一具体任务，对比分析人工智能领域两种主流方法的实现机制：产生式系统 (Production System) 与 深度学习 (Deep Learning)。
+	
+	产生式系统代表了传统的「白盒」AI，依赖人工定义的 IF-THEN 规则库与推理机进行逻辑判断；而深度学习则代表了现代的「黑盒」AI，通过卷积神经网络（CNN）自动从像素数据中提取高维特征。本实验将分别实现这两种系统：前者采用特征仿真与正向推理策略，后者采用迁移学习与 ResNet 模型。报告将从算法原理、开发步骤及代码实现三个维度进行深入对比，以揭示两种方法在知识表示与推理机制上的根本差异。
+	
+	\section{产生式系统的设计与实现}
+	\subsection{算法原理}
+	产生式系统是一种基于知识的 AI 系统，其核心由三个部分组成 ：
+	
+	综合数据库 (Global Database)：存储当前已知的事实（例如：「检测到喵喵叫」、「有毛发」）。
+	
+	规则库 (Rule Base)：存储领域专家知识，形式为 IF <条件> THEN <结论> 的产生式规则。
+	
+	推理机 (Inference Engine)：本实验采用 正向推理 (Forward Chaining) 策略，即从已知特征出发，不断匹配规则库，直到推导出最终结论（猫或狗）。
+	
+	\subsection{实现步骤}
+	知识获取：分析猫与狗在生物学上的显著区别（如：猫有垂直瞳孔、伸缩爪；狗有圆形瞳孔、不可伸缩爪）。
+	
+	规则构建：将上述特征转化为 Python 代码中的逻辑判断语句。
+	
+	特征仿真 (Mocking)：由于规则系统无法直接理解图像像素，本实验设计了一个 mock\_vision\_module，通过读取图像文件名的关键词（如 "cat.jpg"）来仿真计算器视觉提取语义特征的过程。
+	
+	逻辑推导：推理机根据输入特征计算得分，得分高者为最终分类结果。
+	\subsection{代码实现与运行结果}
+	\begin{lstlisting}[style=commonCodeStyle, caption={production system.cpp}, label={lst:2-1}]
+		# 代码片段：推理机核心逻辑
+		def solve(self, features):
+		score_cat = 0
+		score_dog = 0
+		
+		# 规则 1: 声音判断 (符号匹配)
+		if '汪汪叫' in features:
+		score_dog += 10  # 命权重规则
+		if '喵喵叫' in features:
+		score_cat += 10
+		
+		# 规则 2: 生物特征判断
+		if '爪子可伸缩' in features:
+		score_cat += 5   # 猫科特征
+		if '爪子不可伸缩' in features:
+		score_dog += 5   # 犬科特征
+		
+		# ... (省略其他规则)
+		
+		# 最终决策
+		if score_cat > score_dog:
+		return " 猫 (Cat)", score_cat
+		elif score_dog > score_cat:
+		return "狗 (Dog)", score_dog
+	\end{lstlisting}
+	通过运行 production\_system.py(\ref{lst:2-1})，系统成功仿真了专家推理过程：
+	
+	当输入包含 "cat" 的路径时，系统提取到 "喵喵叫"、"垂直瞳孔"，判定为猫。
+	
+	当输入包含 "dog" 的路径时，系统提取到 "汪汪叫"，判定为狗。
+	
+	\begin{figure}[H]
+		\begin{center}
+			\includegraphics[scale=0.1]{images/2-1.jpg}
+			\caption{test.jpg}
+			\label{fig2-1}
+		\end{center}
+	\end{figure}
+	\begin{figure}[H]
+		\begin{center}
+			\includegraphics[scale=0.7]{images/2-1.png}
+			\caption{result}
+			\label{fig2-2}
+		\end{center}
+	\end{figure}
+	
+	\section{基于 CNN 的深度学习方法}
+	\subsection{算法原理}
+	本实验采用 卷积神经网络 (CNN)，具体使用 ResNet-34 (Residual Network) 架构 。
+	
+	卷积层 (Convolution)：自动提取图像的纹理、边缘等特征。
+	
+	残差连接 (Residual Connection)：解决了深层网络中的梯度消失问题，允许训练更深的网络。
+	
+	迁移学习 (Transfer Learning)：利用在 ImageNet 数据集上预训练的权重，加速模型收敛并提高准确率。
+	\subsection{实现步骤}
+	数据准备：使用 Kaggle Dog Tiny 数据集。
+	
+	数据增强：代码中使用 RandomResizedCrop（随机裁剪）、RandomHorizontalFlip（水平翻转）和 ColorJitter（颜色抖动）来扩充数据，防止过拟合。
+	
+	标准化：将像素值归一化至标准分布。
+	
+	模型构建：加载预训练的 ResNet-34，将全连接层 (fc) 替换为输出大小为 120 的线性层（对应 120 种狗的分类）。
+	
+	模型训练：
+	
+	损失函数：交叉熵损失 (CrossEntropyLoss)。
+	
+	优化器：随机梯度下降 (SGD)，学习率设为 1e-4。
+	
+	设备：自动检测 GPU (d2l.try\_gpu) 进行加速训练。
+	\subsection{代码实现与运行结果}
+	\begin{lstlisting}[style=commonCodeStyle, caption={ResNet.cpp}, label={lst:2-1}]
+		# 代码片段：模型微调 (Fine-tuning)
+		def get_net(devices):
+		# 加载预训练模型 (pretrained=True)
+		finetune_net = torchvision.models.resnet34(pretrained=True)
+		
+		# 修改最后一层全连接层，输出类别改为 120
+		finetune_net.fc = nn.Linear(finetune_net.fc.in_features, 120)
+		
+		# 初始化新层的权重
+		nn.init.xavier_uniform_(finetune_net.fc.weight)
+		return finetune_net.to(devices[0])
+	\end{lstlisting}
+	
+	经过 50 轮 (Epochs) 的训练，模型在训练集上的准确率逐步提升，损失值 (Loss) 逐渐下降。模型最终保存为 dog\_net.pth。
+	\begin{figure}[H]
+		\begin{center}
+			\includegraphics[scale=0.4]{images/2-2.png}
+			\caption{train}
+			\label{fig2-3}
+		\end{center}
+	\end{figure}
+	同样拿之前的test.jpg(\ref{fig2-1})
+	\begin{figure}[H]
+		\begin{center}
+			\includegraphics[scale=0.7]{images/2-3.png}
+			\caption{result}
+			\label{fig2-4}
+		\end{center}
+	\end{figure}
+	
+	\section{两种方法的对比分析}
+	本章将从算法原理、性能表现及适用场景三个维度，对本次实验中实现的产生式系统（基于规则的方法）与深度学习系统（基于 ResNet 的方法）进行深入对比。
+	
+	\subsection{算法原理对比}
+	这两种方法代表了人工智能发展史上的两个不同范式：符号主义（Symbolism）与连接主义（Connectionism）。
+	
+	\begin{itemize}
+		\item \textbf{知识表示的差异}：
+		\begin{itemize}
+			\item \textbf{产生式系统}：依赖于\textbf{显性知识 (Explicit Knowledge)}。知识以 IF-THEN 规则的形式（如「IF 有毛发 THEN 哺乳动物」）直接存储在规则库中。这要求人类专家预先定义好所有关键特征。
+			\item \textbf{深度学习 (CNN)}：依赖于\textbf{隐性知识 (Implicit Knowledge)}。知识以神经网络中数百万个权重参数的形式存在。模型通过反向传播算法，自动从训练数据的像素中学习特征表示。
+		\end{itemize}
+		
+		\item \textbf{推理机制的差异}：
+		\begin{itemize}
+			\item \textbf{产生式系统}：采用\textbf{逻辑演绎}。推理过程是确定性的符号匹配与规则触发（正向推理），类似于人类的逻辑思考步骤。
+			\item \textbf{深度学习 (CNN)}：采用\textbf{概率映射}。推理过程是基于矩阵运算和非线性变换，计算输入图像属于某一类别的概率分布，类似于人类的直觉感知。
+		\end{itemize}
+	\end{itemize}
+	
+	\subsection{性能与适用性分析}
+	
+	\subsubsection{准确性与鲁棒性 (Accuracy \& Robustness)}
+	在本次实验的动物识别任务中，基于 ResNet-34 的深度学习模型表现出显著优势。
+	\begin{itemize}
+		\item \textbf{深度学习}：具有极强的泛化能力。即使图像存在旋转、遮挡或光照变化，卷积层仍能提取有效特征。对于 120 种犬类的细粒度分类，CNN 是目前唯一可行的高精度方案。
+		\item \textbf{产生式系统}：鲁棒性较差。系统高度依赖于特征提取的准确性。如果图像模糊导致无法检测到「瞳孔形状」或「爪子」等关键特征，推理链条就会断裂，导致识别失败。
+	\end{itemize}
+	
+	\subsubsection{可解释性 (Interpretability)}
+	\begin{itemize}
+		\item \textbf{产生式系统}：具有极高的可解释性（白盒模型）。系统的每一个决策都可以回溯到具体的规则。例如，判定为「猫」是因为触发了「垂直瞳孔」规则。这在医疗诊断等对安全性要求高的领域至关重要。
+		\item \textbf{深度学习}：可解释性较差（黑盒模型）。虽然 ResNet 准确率高，但很难解释为什么模型认为这张图片是「哈士奇」。决策过程隐藏在复杂的神经网络层次中。
+	\end{itemize}
+	
+	\subsection{综合对比表}
+	为了直观展示两种方法的异同，表 \ref{tab:comparison} 总结了各项核心指标的对比结果。
+	
+	\begin{table}[H]
+		\centering
+		\caption{产生式系统与深度学习方法的综合对比}
+		\label{tab:comparison}
+		\renewcommand{\arraystretch}{1.5} % 增加行高，让表格更易读
+		\begin{tabular}{|m{3cm}|m{5cm}|m{5cm}|}
+			\hline
+			\textbf{比较维度} & \textbf{产生式系统 (本实验代码)} & \textbf{深度学习 (ResNet-34)} \\
+			\hline
+			\textbf{核心逻辑} & 基于逻辑规则 (Logic-based) & 基于统计概率 (Data-driven) \\
+			\hline
+			\textbf{输入形式} & 语义符号 (如：'有毛', '汪汪叫') & 原始像素 (RGB 矩阵) \\
+			\hline
+			\textbf{知识来源} & 人工编码 (Hand-crafted) & 数据训练 (Learned from data) \\
+			\hline
+			\textbf{模型透明度} & \textbf{白盒} (过程清晰可见) & \textbf{黑盒} (内部机制难以解释) \\
+			\hline
+			\textbf{泛化能力} & 弱 (受限于规则库的完备性) & 强 (能处理未见过的图像变体) \\
+			\hline
+		\end{tabular}
+	\end{table}
+	
+	\vspace{1em}
+	\noindent\textbf{结论}：通过对比可见，产生式系统胜在逻辑清晰与可解释性，适合规则明确的任务；而基于 PyTorch 实现的 ResNet 深度学习模型胜在感知能力与准确性，是处理图像等非结构化数据的最佳选择。
+	
+	\section{结论与心得}
+	本次作业成功实现并对比了基于规则的产生式系统与基于 ResNet 的深度学习系统
+	
+	产生式系统展示了人类理性逻辑在计算器中的实现，证明了其在逻辑清晰、规则明确的任务中的价值和能力
+	
+	深度学习方法则展示了强大的感知能力，证明了在处理高维、非结构化数据（如图像）时，数据驱动的方法远优于人工规则，泛化能力強
+	
+	未来的 AI 发展趋势可能是两者的结合（神经符号 AI），即利用深度学习处理感知（看图），利用产生式系统处理认知（逻辑推理），以兼顾准确率与可解释性
+\end{document}

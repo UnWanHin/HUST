@@ -1,0 +1,94 @@
+填空题
+1：假设
+String s1 = "Welcome to Java";
+String s2 = s1;
+String s3 = new String("Welcome to Java");
+那么下面表达式的结果是什么？
+(1) s1 == s2 ________________________________
+(2) s1 == s3________________________________
+(3) s1.equals(s2)________________________________
+(4) s2.equals(s3)________________________________
+(5) s1.compareTo(s2);________________________________
+(6) s2.compareTo(s3);________________________________
+(7) s1.charAt(0);________________________________
+(8) s1.indexOf('j');________________________________
+(9) s1.indexOf("to");________________________________
+(10) s1.lastIndexOf("o",15) _______________________________
+(11) s1.substring(3, 11);________________________________
+(12) s1.endsWith("Java")________________________________
+(13) s1.startsWith("wel");________________________________
+(14) "   We come  ".trim();________________________________
+(15) s1.toUpperCase();________________________________
+(16) s1.replace('o', 'T');________________________________
+2．如果
+StringBuffer s1 = new StringBuffer("Java");
+StringBuffer s2 = new StringBuffer("HTML");
+假设下列每个语句是独立的，每条语句结束后，写出相应结果
+(1) s1.append("  is fun");s1为_____________________
+(2) s1.append(s2);s1为_____________________
+(3) s1.insert(2, "is fun");s1为_____________________
+(4) s1.insert(1,s2);s1为_____________________
+(5) char c = s1.charAt(2);c为______________________
+(6) int i = s1.length();i为______________________
+(7) s1.deleteCharAt(3);s1为_____________________
+(8) s1.delete(1,3);s1为_____________________
+(9) s1.reverse();s1为_____________________
+(10) s1.replace(1,3, "Computer"); s1为_____________________
+(11) String s3 = s1.substring(1,3);
+s3为_______________________，s1为___________________________
+(12) String s4 = s1.substring(2);
+S4为_______________________，s1为___________________________
+3. 假设StringBuffer s = new StringBuffer("Welcome to JAVA");
+将s的内容清空的语句是______________________________________________。
+4.如果
+String s1 = "Welcome";String s2 = new String("Welcome");String s3 = s2.intern();String s4 = "Wel" + "come";String s5 = "Wel";String s6 = "come";String s7 = s5 + s6;String s8 = "Wel" + new String("come");
+那么下面表达式的结果为：
+（1）s1 == s2____________
+（2）s1 == s3____________
+（3）s1 == s4____________
+（4）s1 == s7____________
+（5）s1 == s8____________
+（6）s1.equals(s2)____________
+（7）s1.equals(s3)____________
+（8）s1.equals(s4)____________
+（9）s1.equals(s7)____________
+（10）s1.equals(s8)____________
+二、单项选择题
+1．可以获取字符串s的最后一个字符的表达式是________。
+（A）s.length()
+（B）s[s.length() - 1]
+（C）s.charAt(s.length() - 1)
+（D）charAt(s, length(s))
+2. 下面程序
+class C {
+public static void main(String[] args) {
+String s = “null”;
+if(s == null)
+System.out.print(“a”);
+else if(s.length() == 0)
+System.out.print(“b”);
+else
+System.out.print(“c”);
+}
+}
+的输出为________。
+（A）a （B）b
+（C）c （D）null
+3. 下面的程序
+class C {
+public static void main(String[] args) {
+String s = “Welcome to ”;
+concat(s);
+System.out.print(s);
+}
+public static void concat(String s) {
+s += “Java”;
+}
+}
+的输出为________。
+（A）Welcome to （B）Welcome to Java
+（C）编译错误 （D）运行时异常
+三、编程题
+1：编写程序，从控制台或对话框任意输入一个英文字符串，统计字符串中每个英文字母出现的次数并输出到控制台（大小写不敏感）。
+2：假设一个车牌号码由三个大写字母和后面的四个数字组成。编写一个程序. 随机生
+成5个不重复的车牌号码。

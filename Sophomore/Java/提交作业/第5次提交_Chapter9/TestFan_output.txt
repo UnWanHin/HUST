@@ -1,0 +1,2 @@
+fan1: speed=3, color=yellow, radius=10.0
+fan2: fan is off, color=blue, radius=5.0
