@@ -1,0 +1,20 @@
+\contentsline {section}{\numberline {1}引言}{1}{section.1}%
+\contentsline {section}{\numberline {2}研究方法}{2}{section.2}%
+\contentsline {subsection}{\numberline {2.1}物理模型建立：二维伊辛模型}{2}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}数值模拟算法：Metropolis-Hastings}{2}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}MATLAB 实现与可视化设计}{3}{subsection.2.3}%
+\contentsline {section}{\numberline {3}研究内容}{4}{section.3}%
+\contentsline {subsection}{\numberline {3.1}实验环境与核心代码实现}{4}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}实验方案与参数设置}{4}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}具体实验过程数据}{5}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}实验一：高温无序相 ($T=4.0$)}{5}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}实验二：低温有序相 ($T=1.0$)}{6}{subsubsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {3.3.3}实验三：临界区间 ($T=2.269$)}{8}{subsubsection.3.3.3}%
+\contentsline {section}{\numberline {4}结论和未来展望}{11}{section.4}%
+\contentsline {subsection}{\numberline {4.1}研究结论}{11}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}不足与未来展望}{11}{subsection.4.2}%
+\contentsline {section}{\numberline {5}致谢}{12}{section.5}%
+\contentsline {section}{\numberline {6}附录}{13}{section.6}%
+\contentsline {subsection}{\numberline {6.1}源代码}{13}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}可导入Matlab影音文件}{16}{subsection.6.2}%
+\contentsline {section}{\numberline {7}参考文献}{17}{section.7}%

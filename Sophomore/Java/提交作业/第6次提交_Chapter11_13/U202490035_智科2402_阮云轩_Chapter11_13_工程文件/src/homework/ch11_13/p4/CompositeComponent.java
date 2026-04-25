@@ -25,6 +25,11 @@ public class CompositeComponent extends Component {
     }
 
     @Override
+    public double getPrice() {
+        return calcPrice();
+    }
+
+    @Override
     public void add(Component component) throws UnsupportedOperationException {
         if (component != null) {
             children.add(component);
@@ -56,7 +61,7 @@ public class CompositeComponent extends Component {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(super.toString());
+        sb.append("id: ").append(getId()).append(", name: ").append(getName()).append(", price:").append(getPrice());
         sb.append(", children=[");
         for (int i = 0; i < children.size(); i++) {
             if (i > 0) {
@@ -68,4 +73,3 @@ public class CompositeComponent extends Component {
         return sb.toString();
     }
 }
-

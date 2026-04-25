@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>薄膜干涉综合模拟 (Interference Patterns)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 侧边栏控制区 */
+        .sidebar {
+            width: 320px;
+            background-color: #1e1e1e;
+            padding: 20px;
+            box-shadow: 2px 0 8px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 10;
+        }
+
+        h2 { margin: 0 0 10px 0; color: #03dac6; font-size: 1.2rem; }
+        
+        .control-group {
+            background: #2c2c2c;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+        
+        /* 动态显示的控件容器 */
+        .dynamic-control { display: none; }
+        .dynamic-control.active { display: block; }
+
+        label { display: flex; justify-content: space-between; font-size: 0.9em; color: #aaa; margin-bottom: 5px; }
+        .val { color: #03dac6; font-family: monospace; }
+
+        select, input[type=range] {
+            width: 100%;
+            padding: 5px;
+            background: #444;
+            border: none;
+            color: white;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+        input[type=range] { cursor: pointer; height: 4px; appearance: none; background: #555; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: #03dac6; border-radius: 50%; cursor: pointer; }
+
+        .info-box {
+            font-size: 0.85em;
+            color: #888;
+            line-height: 1.4;
+            background: #252525;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: auto; /* 推到底部 */
+        }
+
+        /* 主绘图区 */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            background: #000;
+        }
+
+        .canvas-container {
+            position: relative;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+            border: 1px solid #333;
+            border-radius: 4px;
+            background: #000;
+        }
+
+        canvas { display: block; }
+        
+        .plot-title {
+            position: absolute;
+            top: 5px; left: 10px;
+            background: rgba(0,0,0,0.6);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            color: #fff;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>🌈 薄膜干涉实验室</h2>
+
+    <div class="control-group">
+        <label>干涉模式 (Mode)</label>
+        <select id="modeSelect">
+            <option value="newton">牛顿环 (Newton's Rings)</option>
+            <option value="wedge">空气劈尖 (Air Wedge)</option>
+            <option value="inclination">等倾干涉 (Equal Inclination)</option>
+        </select>
+    </div>
+
+    <!-- 通用参数 -->
+    <div class="control-group">
+        <label>波长 &lambda; (nm) <span id="val_lambda" class="val">550</span></label>
+        <input type="range" id="lambda" min="380" max="750" step="1" value="550">
+        
+        <label style="margin-top:10px;">介质折射率 n <span id="val_n" class="val">1.0</span></label>
+        <input type="range" id="n" min="1.0" max="2.5" step="0.01" value="1.0">
+    </div>
+
+    <!-- 牛顿环 独有参数 -->
+    <div class="control-group dynamic-control active" id="ctrl_newton">
+        <label>曲率半径 R (m) <span id="val_R" class="val">2.0</span></label>
+        <input type="range" id="R" min="0.5" max="10.0" step="0.1" value="2.0">
+    </div>
+
+    <!-- 劈尖 独有参数 -->
+    <div class="control-group dynamic-control" id="ctrl_wedge">
+        <label>劈尖夹角 &theta; (arcsec) <span id="val_angle" class="val">30</span></label>
+        <input type="range" id="angle" min="5" max="100" step="1" value="30">
+        <div style="font-size:0.7em; color:#666; margin-top:5px;">(模拟夹入细丝后的微小角度)</div>
+    </div>
+
+    <!-- 等倾 独有参数 -->
+    <div class="control-group dynamic-control" id="ctrl_inclination">
+        <label>薄膜厚度 h (&mu;m) <span id="val_h" class="val">10</span></label>
+        <input type="range" id="h" min="1" max="100" step="0.5" value="1">
+        
+        <label style="margin-top:10px;">观测焦距 f (cm) <span id="val_f" class="val">50</span></label>
+        <input type="range" id="f" min="0.1" max="10" step="1" value="50">
+    </div>
+
+    <div class="control-group">
+        <label>视野缩放 (Zoom) <span id="val_zoom" class="val">1.0</span></label>
+        <input type="range" id="zoom" min="0.1" max="3.0" step="0.1" value="1.0">
+    </div>
+
+    <div class="info-box" id="infoText">
+        原理说明...
+    </div>
+</div>
+
+<div class="main-content">
+    <!-- 2D 干涉图样 -->
+    <div class="canvas-container">
+        <div class="plot-title">干涉图样 (2D Pattern)</div>
+        <canvas id="viewCanvas" width="500" height="400"></canvas>
+    </div>
+
+    <!-- 1D 光强曲线 -->
+    <div class="canvas-container">
+        <div class="plot-title">光强分布剖面 (Intensity Profile)</div>
+        <canvas id="profileCanvas" width="500" height="150"></canvas>
+    </div>
+</div>
+
+<script>
+    // === DOM 元素 ===
+    const modeSelect = document.getElementById('modeSelect');
+    const ctrls = {
+        newton: document.getElementById('ctrl_newton'),
+        wedge: document.getElementById('ctrl_wedge'),
+        inclination: document.getElementById('ctrl_inclination')
+    };
+    const inputs = {
+        lambda: document.getElementById('lambda'),
+        n: document.getElementById('n'),
+        R: document.getElementById('R'),
+        angle: document.getElementById('angle'),
+        h: document.getElementById('h'),
+        f: document.getElementById('f'),
+        zoom: document.getElementById('zoom')
+    };
+    const displays = {
+        lambda: document.getElementById('val_lambda'),
+        n: document.getElementById('val_n'),
+        R: document.getElementById('val_R'),
+        angle: document.getElementById('val_angle'),
+        h: document.getElementById('val_h'),
+        f: document.getElementById('val_f'),
+        zoom: document.getElementById('val_zoom')
+    };
+    const infoText = document.getElementById('infoText');
+    const cvsView = document.getElementById('viewCanvas');
+    const ctxView = cvsView.getContext('2d');
+    const cvsProf = document.getElementById('profileCanvas');
+    const ctxProf = cvsProf.getContext('2d');
+
+    // === 状态与事件 ===
+    let currentMode = 'newton';
+
+    // 模式切换逻辑
+    modeSelect.addEventListener('change', (e) => {
+        currentMode = e.target.value;
+        // 隐藏所有专属控件
+        Object.values(ctrls).forEach(div => div.classList.remove('active'));
+        // 显示当前模式控件
+        if(ctrls[currentMode]) ctrls[currentMode].classList.add('active');
+        updateInfo();
+        draw();
+    });
+
+    // 绑定所有输入事件
+    Object.keys(inputs).forEach(key => {
+        inputs[key].addEventListener('input', (e) => {
+            displays[key].textContent = e.target.value;
+            draw();
+        });
+    });
+
+    // === 核心绘图逻辑 ===
+    function draw() {
+        const width = cvsView.width;
+        const height = cvsView.height;
+        const profH = cvsProf.height;
+        
+        // 1. 获取物理参数 (全部转为标准单位 米)
+        const lambda = parseFloat(inputs.lambda.value) * 1e-9;
+        const n_idx = parseFloat(inputs.n.value);
+        const zoom = parseFloat(inputs.zoom.value);
+        
+        // 视野范围 (根据 zoom 调整, 默认视野宽约 1cm)
+        const viewSize = 0.01 / zoom; 
+        
+        // 准备画布
+        const imgData = ctxView.createImageData(width, height);
+        const pixels = imgData.data;
+        
+        // 准备 RGB 颜色基
+        const color = wavelengthToRGB(parseFloat(inputs.lambda.value));
+
+        // 剖面图数据容器
+        const profileData = new Float32Array(width);
+        const centerY = Math.floor(height / 2);
+
+        // --- 2D 像素循环 ---
+        // 为了性能，不使用嵌套循环做复杂计算，而是利用对称性
+        // 但对于 Air Wedge 是非中心对称的，所以通用写法是遍历
+        
+        for (let py = 0; py < height; py++) {
+            // 物理坐标 y (以中心为0)
+            const y = ((py / height) - 0.5) * (viewSize * height / width); 
+            
+            for (let px = 0; px < width; px++) {
+                // 物理坐标 x
+                const x = ((px / width) - 0.5) * viewSize;
+                
+                // 计算光程差 (OPD) 或 相位差
+                let delta = 0; // 光程差
+                let phaseShift = 0; // 额外相位差 (半波损失)
+
+                if (currentMode === 'newton') {
+                    // 牛顿环: h = r^2 / (2R)
+                    // OPD = 2*n*h + lambda/2 (空气膜反射有半波损失)
+                    const R = parseFloat(inputs.R.value);
+                    const r2 = x*x + y*y;
+                    const h = r2 / (2 * R);
+                    delta = 2 * n_idx * h;
+                    phaseShift = lambda / 2;
+                } 
+                else if (currentMode === 'wedge') {
+                    // 劈尖: h = x * tan(theta)
+                    // 坐标系调整：让条纹竖直分布，x对应厚度变化方向
+                    // 假设 x=0 处接触 (厚度0)，向右厚度增加
+                    // 将 x 平移一下让接触点在左侧，方便观察
+                    const thetaDeg = parseFloat(inputs.angle.value) / 3600; // arcsec -> degree
+                    const thetaRad = thetaDeg * Math.PI / 180;
+                    
+                    // 让 x 从 0 开始 (视野左边缘)
+                    const x_pos = (px / width) * viewSize; 
+                    const h = x_pos * Math.tan(thetaRad);
+                    delta = 2 * n_idx * h;
+                    phaseShift = lambda / 2;
+                }
+                else if (currentMode === 'inclination') {
+                    // 等倾干涉: OPD = 2*n*h*cos(i2)
+                    // 几何关系: r = f * tan(i1). i1是入射角, i2是折射角
+                    // sin(i1) = n * sin(i2)
+                    const h = parseFloat(inputs.h.value) * 1e-6; // um -> m
+                    const f = parseFloat(inputs.f.value) * 1e-2; // cm -> m
+                    
+                    const r = Math.sqrt(x*x + y*y);
+                    const tan_i1 = r / f;
+                    const i1 = Math.atan(tan_i1); // 入射角
+                    const sin_i2 = Math.sin(i1) / n_idx;
+                    const cos_i2 = Math.sqrt(1 - sin_i2*sin_i2);
+                    
+                    delta = 2 * n_idx * h * cos_i2;
+                    // 如果 n > 1，且上下表面反射情况不同，可能存在半波损失
+                    // 这里假设是空气中的薄膜 (n_air < n_film > n_air)，存在两次反射
+                    // 上表面: 空气->膜 (有半波损失)
+                    // 下表面: 膜->空气 (无半波损失)
+                    phaseShift = lambda / 2; 
+                }
+
+                // 计算光强 I = I0 * cos^2( (2*pi/lambda) * (OPD/2) ) 
+                // 考虑相位: phi = 2*pi*(delta + phaseShift)/lambda
+                const phi = 2 * Math.PI * (delta + phaseShift) / lambda;
+                const intensity = Math.pow(Math.cos(phi / 2), 2);
+
+                // 填充像素
+                const idx = (py * width + px) * 4;
+                pixels[idx] = color[0] * intensity;     // R
+                pixels[idx+1] = color[1] * intensity;   // G
+                pixels[idx+2] = color[2] * intensity;   // B
+                pixels[idx+3] = 255;                    // Alpha
+
+                // 记录剖面数据 (取中间一行)
+                if (py === centerY) {
+                    profileData[px] = intensity;
+                }
+            }
+        }
+        
+        ctxView.putImageData(imgData, 0, 0);
+
+        // --- 绘制剖面图 ---
+        ctxProf.fillStyle = '#111';
+        ctxProf.fillRect(0, 0, width, profH);
+        
+        ctxProf.strokeStyle = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+        ctxProf.lineWidth = 2;
+        ctxProf.beginPath();
+        
+        for (let x = 0; x < width; x++) {
+            const val = profileData[x];
+            const y = profH - 10 - (val * (profH - 20)); // 留边距
+            if (x === 0) ctxProf.moveTo(x, y);
+            else ctxProf.lineTo(x, y);
+        }
+        ctxProf.stroke();
+    }
+
+    // === 辅助功能 ===
+    
+    function updateInfo() {
+        let text = "";
+        switch(currentMode) {
+            case 'newton':
+                text = "【牛顿环】等厚干涉的一种。由平凸透镜和平面玻璃接触形成。厚度从接触点向外按 r² 增加。特征为内疏外密的同心圆环，中心因半波损失为暗斑。";
+                break;
+            case 'wedge':
+                text = "【空气劈尖】等厚干涉的一种。由两玻璃板夹角形成。厚度随位置线性增加。特征为等间距的直条纹。调节夹角可改变条纹疏密。";
+                break;
+            case 'inclination':
+                text = "【等倾干涉】面光源照明下的薄膜干涉。光程差取决于入射角(倾角)。同一倾角的光汇聚在同一圆环上。膜越厚，条纹越密。";
+                break;
+        }
+        infoText.innerText = text;
+    }
+
+    // 波长转RGB (简化版光谱算法)
+    function wavelengthToRGB(Wavelength) {
+        let R, G, B;
+        if (Wavelength >= 380 && Wavelength < 440) { R = -(Wavelength - 440) / (440 - 380); G = 0.0; B = 1.0; }
+        else if (Wavelength >= 440 && Wavelength < 490) { R = 0.0; G = (Wavelength - 440) / (490 - 440); B = 1.0; }
+        else if (Wavelength >= 490 && Wavelength < 510) { R = 0.0; G = 1.0; B = -(Wavelength - 510) / (510 - 490); }
+        else if (Wavelength >= 510 && Wavelength < 580) { R = (Wavelength - 510) / (580 - 510); G = 1.0; B = 0.0; }
+        else if (Wavelength >= 580 && Wavelength < 645) { R = 1.0; G = -(Wavelength - 645) / (645 - 580); B = 0.0; }
+        else if (Wavelength >= 645 && Wavelength <= 750) { R = 1.0; G = 0.0; B = 0.0; }
+        else { R = 0.0; G = 0.0; B = 0.0; }
+
+        // 强度衰减
+        let factor = 1.0;
+        if (Wavelength > 700) factor = 0.3 + 0.7 * (750 - Wavelength) / (750 - 700);
+        else if (Wavelength < 420) factor = 0.3 + 0.7 * (Wavelength - 380) / (420 - 380);
+
+        const gamma = 0.8;
+        return [
+            Math.round(Math.pow(R * factor, gamma) * 255),
+            Math.round(Math.pow(G * factor, gamma) * 255),
+            Math.round(Math.pow(B * factor, gamma) * 255)
+        ];
+    }
+
+    // 初始化
+    updateInfo();
+    draw();
+
+</script>
+</body>
+</html>

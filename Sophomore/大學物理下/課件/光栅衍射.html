@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>光栅衍射在线模拟 (Grating Diffraction)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 左侧控制面板 */
+        .sidebar {
+            width: 320px;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 10;
+            overflow-y: auto;
+        }
+
+        h2 { margin-top: 0; color: #333; font-size: 1.2em; }
+        
+        .control-group {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+
+        .control-group label {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input[type=range] {
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .val-display {
+            color: #007bff;
+            font-family: monospace;
+        }
+
+        .note {
+            font-size: 0.8em;
+            color: #d9534f;
+            margin-top: 5px;
+        }
+
+        /* 右侧绘图区域 */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+        }
+
+        .canvas-container {
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        /* 曲线图背景设为深色以便观察 */
+        #plotCanvas {
+            background: #1e1e1e; 
+            width: 100%;
+            height: 60%;
+            cursor: crosshair;
+        }
+
+        /* 条纹图 */
+        #fringeCanvas {
+            background: #000;
+            width: 100%;
+            height: 40%;
+        }
+
+        .plot-label {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: #fff;
+            background: rgba(0,0,0,0.5);
+            padding: 5px 10px;
+            border-radius: 4px;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>⚙️ 参数设置</h2>
+
+    <div class="control-group">
+        <label>波长 &lambda; (nm) <span id="val_lambda" class="val-display">500</span></label>
+        <input type="range" id="lambda" min="380" max="780" step="1" value="500">
+    </div>
+
+    <div class="control-group">
+        <label>缝宽 a (&mu;m) <span id="val_a" class="val-display">20</span></label>
+        <input type="range" id="a" min="1" max="100" step="1" value="20">
+    </div>
+
+    <div class="control-group">
+        <label>光栅常数 d (&mu;m) <span id="val_d" class="val-display">60</span></label>
+        <input type="range" id="d" min="2" max="200" step="1" value="60">
+        <div class="note" id="d_warning" style="display:none;">注意：d 必须大于 a</div>
+    </div>
+
+    <div class="control-group">
+        <label>缝数 N <span id="val_N" class="val-display">5</span></label>
+        <input type="range" id="N" min="1" max="20" step="1" value="5">
+    </div>
+
+    <div class="control-group">
+        <label>屏幕距离 L (m) <span id="val_L" class="val-display">1.0</span></label>
+        <input type="range" id="L" min="0.1" max="5" step="0.1" value="1.0">
+    </div>
+
+    <div class="control-group">
+        <label>缩放范围 (X轴) <span id="val_zoom" class="val-display">10</span></label>
+        <input type="range" id="zoom" min="1" max="50" step="1" value="10">
+    </div>
+    
+    <div style="font-size: 0.85em; color: #666; line-height: 1.5;">
+        <p><strong>原理说明：</strong><br>
+        本模拟基于夫琅禾费衍射原理。<br>
+        总光强 = 单缝衍射因子 &times; 多缝干涉因子。
+        </p>
+    </div>
+</div>
+
+<div class="main-content">
+    <!-- 曲线图 -->
+    <div class="canvas-container" style="flex: 3;">
+        <div class="plot-label">光强分布曲线 (Normalized Intensity)</div>
+        <canvas id="plotCanvas"></canvas>
+    </div>
+
+    <!-- 条纹图 -->
+    <div class="canvas-container" style="flex: 2;">
+        <div class="plot-label">观察屏衍射条纹 (Diffraction Pattern)</div>
+        <canvas id="fringeCanvas"></canvas>
+    </div>
+</div>
+
+<script>
+    // 获取DOM元素
+    const controls = {
+        lambda: document.getElementById('lambda'),
+        a: document.getElementById('a'),
+        d: document.getElementById('d'),
+        N: document.getElementById('N'),
+        L: document.getElementById('L'),
+        zoom: document.getElementById('zoom')
+    };
+
+    const displays = {
+        lambda: document.getElementById('val_lambda'),
+        a: document.getElementById('val_a'),
+        d: document.getElementById('val_d'),
+        N: document.getElementById('val_N'),
+        L: document.getElementById('val_L'),
+        zoom: document.getElementById('val_zoom')
+    };
+
+    const cvsPlot = document.getElementById('plotCanvas');
+    const ctxPlot = cvsPlot.getContext('2d');
+    const cvsFringe = document.getElementById('fringeCanvas');
+    const ctxFringe = cvsFringe.getContext('2d');
+    const dWarning = document.getElementById('d_warning');
+
+    // 调整画布尺寸
+    function resizeCanvas() {
+        const container = cvsPlot.parentElement;
+        cvsPlot.width = container.clientWidth;
+        cvsPlot.height = container.clientHeight;
+        
+        const containerF = cvsFringe.parentElement;
+        cvsFringe.width = containerF.clientWidth;
+        cvsFringe.height = containerF.clientHeight;
+        
+        update();
+    }
+    window.addEventListener('resize', resizeCanvas);
+
+    // 物理计算与绘图核心
+    function update() {
+        // 1. 读取参数
+        let lambda = parseFloat(controls.lambda.value); // nm
+        let a = parseFloat(controls.a.value); // um
+        let d = parseFloat(controls.d.value); // um
+        let N = parseInt(controls.N.value);
+        let L = parseFloat(controls.L.value); // m
+        let zoom = parseFloat(controls.zoom.value); // cm (half width)
+
+        // 约束检查: d 必须 > a
+        if (d <= a) {
+            dWarning.style.display = 'block';
+            // 强制 d 至少比 a 大一点 (为了逻辑展示，这里仅提示，计算时做保护)
+        } else {
+            dWarning.style.display = 'none';
+        }
+
+        // 更新文字显示
+        displays.lambda.textContent = lambda;
+        displays.a.textContent = a;
+        displays.d.textContent = d;
+        displays.N.textContent = N;
+        displays.L.textContent = L.toFixed(1);
+        displays.zoom.textContent = zoom;
+
+        // 单位转换到标准单位 (米)
+        const lam_m = lambda * 1e-9;
+        const a_m = a * 1e-6;
+        const d_m = d * 1e-6;
+        const screenMaxX = zoom * 1e-2; // 屏幕半宽度 (m)
+
+        // 准备绘图数据
+        const width = cvsPlot.width;
+        const height = cvsPlot.height;
+        const fHeight = cvsFringe.height;
+        
+        // 清空画布
+        ctxPlot.clearRect(0, 0, width, height);
+        ctxFringe.fillStyle = '#000';
+        ctxFringe.fillRect(0, 0, width, fHeight);
+
+        // 获取当前波长的颜色
+        const colorRGB = wavelengthToRGB(lambda);
+        const colorStr = `rgb(${colorRGB[0]}, ${colorRGB[1]}, ${colorRGB[2]})`;
+
+        // 绘制坐标轴 (Plot)
+        ctxPlot.strokeStyle = '#555';
+        ctxPlot.lineWidth = 1;
+        ctxPlot.beginPath();
+        // X轴
+        ctxPlot.moveTo(0, height - 20);
+        ctxPlot.lineTo(width, height - 20);
+        // Y轴
+        ctxPlot.moveTo(width/2, height);
+        ctxPlot.lineTo(width/2, 0);
+        ctxPlot.stroke();
+
+        // 开始绘制曲线和条纹
+        ctxPlot.strokeStyle = colorStr;
+        ctxPlot.lineWidth = 2;
+        ctxPlot.beginPath();
+
+        // 创建条纹图像数据 (为了高性能，逐像素操作)
+        const fringeImgData = ctxFringe.createImageData(width, fHeight);
+        const data = fringeImgData.data;
+
+        for (let px = 0; px < width; px++) {
+            // 像素坐标 -> 物理坐标 x (m)
+            // px=0 -> -screenMaxX, px=width -> +screenMaxX
+            const x = ((px / width) - 0.5) * 2 * screenMaxX;
+            
+            // 计算衍射角 theta
+            const theta = Math.atan(x / L);
+            const sinTheta = Math.sin(theta);
+
+            // 计算 alpha (单缝) 和 beta (多缝)
+            // alpha = (pi * a * sin(theta)) / lambda
+            const alpha = (Math.PI * a_m * sinTheta) / lam_m;
+            const beta = (Math.PI * d_m * sinTheta) / lam_m;
+
+            // 计算光强 I
+            // 单缝因子
+            let I_single = 1;
+            if (Math.abs(alpha) > 1e-6) {
+                I_single = Math.pow(Math.sin(alpha) / alpha, 2);
+            }
+
+            // 干涉因子
+            let I_interf = Math.pow(N, 2); // 默认最大值
+            if (Math.abs(Math.sin(beta)) > 1e-6) {
+                I_interf = Math.pow(Math.sin(N * beta) / Math.sin(beta), 2);
+            }
+            
+            // 归一化光强 (Total Intensity normalized)
+            // 最大光强总是 N^2 (在中心)，所以除以 N^2
+            const I_norm = (I_single * I_interf) / (N * N);
+
+            // --- 绘制曲线 ---
+            // Y坐标: height-20 是 0, 20 是 1
+            const plotY = (height - 20) - I_norm * (height - 40);
+            if (px === 0) ctxPlot.moveTo(px, plotY);
+            else ctxPlot.lineTo(px, plotY);
+
+            // --- 绘制条纹 ---
+            // 简单的亮度映射
+            const intensityVal = Math.floor(I_norm * 255);
+            
+            // 填充整列像素
+            for (let y = 0; y < fHeight; y++) {
+                const index = (y * width + px) * 4;
+                data[index] = colorRGB[0];     // R
+                data[index + 1] = colorRGB[1]; // G
+                data[index + 2] = colorRGB[2]; // B
+                data[index + 3] = intensityVal; // Alpha (用光强控制透明度)
+                // 或者保持 Alpha=255，用 RGB * intensity 也可以
+            }
+        }
+        ctxPlot.stroke();
+
+        // 将条纹数据放回画布
+        ctxFringe.putImageData(fringeImgData, 0, 0);
+    }
+
+    // 辅助：波长转 RGB (近似算法)
+    function wavelengthToRGB(Wavelength) {
+        let R, G, B;
+        if (Wavelength >= 380 && Wavelength < 440) {
+            R = -(Wavelength - 440) / (440 - 380); G = 0.0; B = 1.0;
+        } else if (Wavelength >= 440 && Wavelength < 490) {
+            R = 0.0; G = (Wavelength - 440) / (490 - 440); B = 1.0;
+        } else if (Wavelength >= 490 && Wavelength < 510) {
+            R = 0.0; G = 1.0; B = -(Wavelength - 510) / (510 - 490);
+        } else if (Wavelength >= 510 && Wavelength < 580) {
+            R = (Wavelength - 510) / (580 - 510); G = 1.0; B = 0.0;
+        } else if (Wavelength >= 580 && Wavelength < 645) {
+            R = 1.0; G = -(Wavelength - 645) / (645 - 580); B = 0.0;
+        } else if (Wavelength >= 645 && Wavelength <= 780) {
+            R = 1.0; G = 0.0; B = 0.0;
+        } else {
+            R = 0.0; G = 0.0; B = 0.0;
+        }
+        
+        // 强度修正
+        let factor = 1.0;
+        if (Wavelength > 700) factor = 0.3 + 0.7 * (780 - Wavelength) / (780 - 700);
+        else if (Wavelength < 420) factor = 0.3 + 0.7 * (Wavelength - 380) / (420 - 380);
+
+        const gamma = 0.80;
+        const R_val = Math.round(Math.pow(R * factor, gamma) * 255);
+        const G_val = Math.round(Math.pow(G * factor, gamma) * 255);
+        const B_val = Math.round(Math.pow(B * factor, gamma) * 255);
+        return [R_val, G_val, B_val];
+    }
+
+    // 绑定事件
+    Object.values(controls).forEach(el => {
+        el.addEventListener('input', update);
+    });
+
+    // 初始化
+    setTimeout(resizeCanvas, 100); // 延时确保布局加载完毕
+    update();
+
+</script>
+</body>
+</html>

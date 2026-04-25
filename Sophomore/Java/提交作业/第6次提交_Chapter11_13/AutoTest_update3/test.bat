@@ -1,17 +1,17 @@
 @echo off
-set JAVA_HOME=D:\jdk-17_windows-x64\jdk-17.0.3.1
+set JAVA_HOME=C:\Program Files\Eclipse Adoptium\jdk-21.0.10.7-hotspot
 set PATH=%JAVA_HOME%/bin;%PATH%
 
-rem ÉèÖÃÔËÐÐTestNGµÄÒÀÀµJar°üËùÔÚÄ¿Â¼£¨µ±Ç°Ä¿Â¼µÄlib×ÓÄ¿Â¼£©
+rem ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½TestNGï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jarï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½Ç°Ä¿Â¼ï¿½ï¿½libï¿½ï¿½Ä¿Â¼ï¿½ï¿½
 set LIB_DIR=.\lib
 
-rem ÉèÖÃ±»²âÊÔÀàµÄÄ¿Â¼£¨¶¥¼¶°üÄ¿Â¼µÄ¸¸Ä¿Â¼£©
+rem ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½Ä¸ï¿½Ä¿Â¼ï¿½ï¿½
 set TO_BE_TEST_CLASSPAH=.\betest
 
-rem ÉèÖÃ²âÊÔÀàµÄÄ¿Â¼(¶¥¼¶°üÄ¿Â¼µÄ¸¸Ä¿Â¼£©,Îªµ±Ç°Ä¿Â¼µÄtest×ÓÄ¿Â¼
+rem ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½Ä¸ï¿½Ä¿Â¼ï¿½ï¿½,Îªï¿½ï¿½Ç°Ä¿Â¼ï¿½ï¿½testï¿½ï¿½Ä¿Â¼
 set TEST_SUITE_CLASSPATH=.\test
 
-rem ½«ÔËÐÐTestNGµÄÒÀÀµJar°ü·Å½øCLASSPATH
+rem ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½TestNGï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jarï¿½ï¿½ï¿½Å½ï¿½CLASSPATH
 setlocal EnableDelayedExpansion
 set DEP_JAR=""
 for /r %LIB_DIR% %%i in (*.jar) do if !DEP_JAR!=="" (set DEP_JAR=%%i) else (set DEP_JAR=!DEP_JAR!;%%i) 

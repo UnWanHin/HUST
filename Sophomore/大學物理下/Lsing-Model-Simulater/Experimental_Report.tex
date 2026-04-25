@@ -1,0 +1,502 @@
+\documentclass[supercite]{Experimental_Report}
+\title{二维伊辛模型 (2D Ising Model) 数值模拟及分析}
+\author{阮云轩}
+%\coauthor{张三、李四}
+\school{}
+\classnum{智科2402}
+\stunum{U202490035}
+%\costunum{U202115631、U202115631}
+\instructor{张文号} % 该系列实验报告模板由华科大计院教师陈加忠制作
+\date{2025年12月31日}
+
+\usepackage{algorithm, multirow}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{framed}
+\usepackage{mathtools}
+\usepackage{subcaption}
+\usepackage{xltxtra} %提供了针对XeTeX的改进并且加入了XeTeX的LOGO, 自动调用xunicode宏包(提供Unicode字符宏)
+\usepackage{bm}
+\usepackage{tikz}
+\usepackage{tikzscale}
+\usepackage{pgfplots}
+\usepackage{listings}
+\usepackage{tocloft}
+%\usepackage{enumerate}
+
+\lstdefinestyle{commonCodeStyle}{
+	language = C, % 假设主要是C语言代码，可按需更改语言类型
+	basicstyle=\ttfamily\footnotesize, % 设置字体为等宽且小一号字体，方便排版
+	breaklines = true, % 自动换行
+	breakatwhitespace = true, % 尽量在空白处换行
+	columns=flexible, % 灵活调整列宽，让代码适应页面宽度
+	numbers=left, % 在代码左侧显示行号
+	numberstyle=\tiny\color{gray}, % 行号的样式，设置为小字号灰色字体
+	keywordstyle=\color{blue}\bfseries, % 关键字样式，加粗蓝色显示
+	commentstyle=\itshape, % 注释样式，斜体绿色显示
+	stringstyle=\color{magenta}, % 字符串样式，紫红色显示
+	showstringspaces=false % 取消显示字符串中的空格，放在正确位置
+}
+
+\lstdefinestyle{mycode}{
+	language = C,
+	basicstyle=\ttfamily,
+	breaklines = true,
+	breakatwhitespace = true,
+	stringstyle=\ttfamily, % 设置字符串的字体风格保持和基本字体一致（等宽字体），这里也可以根据喜好设置其他样式，若不想设置额外样式可不写此行
+	showstringspaces=false % 关键在于这一行，用于取消显示字符串中的空格
+}
+%\usepackage{enumerate}
+
+\pgfplotsset{compat=1.16}
+
+\newcommand{\cfig}[3]{
+	\begin{figure}[htb]
+		\centering
+		\includegraphics[width=#2\textwidth]{images/#1.tikz}
+		\caption{#3}
+		\label{fig:#1}
+	\end{figure}
+}
+
+\newcommand{\sfig}[3]{
+	\begin{subfigure}[b]{#2\textwidth}
+		\includegraphics[width=\textwidth]{images/#1.tikz}
+		\caption{#3}
+		\label{fig:#1}
+	\end{subfigure}
+}
+
+\newcommand{\xfig}[3]{
+	\begin{figure}[htb]
+		\centering
+		#3
+		\caption{#2}
+		\label{fig:#1}
+	\end{figure}
+}
+\renewcommand{\cftlstlistingpresnum}{代码 }
+\renewcommand{\cftlstlistingaftersnum}{:}
+\setlength{\cftlstlistingnumwidth}{3.5em}
+
+\newcommand{\rfig}[1]{\autoref{fig:#1}}
+\newcommand{\ralg}[1]{\autoref{alg:#1}}
+\newcommand{\rthm}[1]{\autoref{thm:#1}}
+\newcommand{\rlem}[1]{\autoref{lem:#1}}
+\newcommand{\reqn}[1]{\autoref{eqn:#1}}
+\newcommand{\rtbl}[1]{\autoref{tbl:#1}}
+
+\algnewcommand\Null{\textsc{null }}
+\algnewcommand\algorithmicinput{\textbf{Input:}}
+\algnewcommand\Input{\item[\algorithmicinput]}
+\algnewcommand\algorithmicoutput{\textbf{Output:}}
+\algnewcommand\Output{\item[\algorithmicoutput]}
+\algnewcommand\algorithmicbreak{\textbf{break}}
+\algnewcommand\Break{\algorithmicbreak}
+\algnewcommand\algorithmiccontinue{\textbf{continue}}
+\algnewcommand\Continue{\algorithmiccontinue}
+\algnewcommand{\LeftCom}[1]{\State $\triangleright$ #1}
+
+\newtheorem{thm}{定理}[section]
+\newtheorem{lem}{引理}[section]
+
+\makeatletter
+% 定义 \subsubsubsection 命令
+\newcommand{\subsubsubsection}{\@startsection{subsubsubsection}{4}{\z@}{-3.25ex plus -1ex minus -.2ex}{1.5ex plus.2ex}{\normalfont\Large\bfseries}}
+% 定义 \subsubsubsubsection 命令
+\newcommand{\subsubsubsubsection}{\@startsection{subsubsubsubsection}{5}{\z@}{-3.25ex plus -1ex minus -.2ex}{1.5ex plus.2ex}{\normalfont\large\bfseries}}
+% 定义 \subsubsubsubsubsection 命令
+\newcommand{\subsubsubsubsubsection}{\@startsection{subsubsubsubsubsection}{6}{\z@}{-3.25ex plus -1ex minus -.2ex}{1.5ex plus.2ex}{\normalfont\normalsize\bfseries}}
+\makeatother
+
+\colorlet{shadecolor}{black!15}
+
+\theoremstyle{definition}
+\newtheorem{alg}{算法}[section]
+
+\def\thmautorefname~#1\null{定理~#1~\null}
+\def\lemautorefname~#1\null{引理~#1~\null}
+\def\algautorefname~#1\null{算法~#1~\null}
+
+\begin{document}
+	
+	\maketitle
+	
+	\clearpage
+	
+	\pagenumbering{Roman}
+	
+	\tableofcontents[level=2]
+	
+	\clearpage
+	
+	\pagenumbering{arabic}
+	
+	\listoflistings
+	
+	\section{引言}
+	本次选题是以热力学运动为主方向的
+	为了探究和理解统计物理中的相变现象，笔者打算以二维伊辛模型 (2D Ising Model) 为研究对象入手分析，利用 MATLAB 平台编写了基于 Metropolis-Hastings 算法的蒙特卡洛数值仿真程序。并附上GUI和交互层，实现了微观自旋组态（向量场）与宏观磁化强度的实时可视化。
+	
+	按已知各大平台的理论知识和数据应会出现如下现象：
+	
+	系统在临界温度 ($T_c \approx 2.27$) 附近发生了显著的二阶相变。在高温区，系统受熵增驱动呈现无序的顺磁态；在低温区，系统受能量最小化驱动自发演化为有序的铁磁态。本模拟成功复现了自发对称性破缺及临界涨落现象，为理解复杂系统的热力学行为提供了直观的物理图像。
+	
+	实验环境：
+	
+	1.MatlabR2025b
+	
+	2.Gemini3.0 Pro Agent代码框架设计
+	
+	
+	
+	\section{研究方法}
+	\subsection{物理模型建立：二维伊辛模型}
+	本研究采用二维伊辛模型 (2D Ising Model) 来模拟铁磁材料的微观磁性行为。系统由 $N \times N$ 个排列在正方晶格上的自旋 (Spin) 组成。每个格点 $i$ 上的自旋变量 $s_i$ 仅有两个取值：$+1$（自旋向上）或 $-1$（自旋向下）。
+	
+	系统的总能量由哈密顿量 (Hamiltonian) 描述：
+	
+	$$H = -J \sum_{\langle i, j \rangle} s_i s_j$$
+	
+	其中：
+	
+	$J$ 为交换相互作用常数 (Coupling Constant)。本研究设 $J=1 > 0$，代表铁磁相互作用，即相邻自旋倾向于平行排列（同向能量更低）。$\langle i, j \rangle$ 表示对所有最近邻 (Nearest Neighbors) 进行求和。在二维正方晶格中，每个格点有 4 个最近邻（上、下、左、右）。
+	
+	\subsection{数值模拟算法：Metropolis-Hastings}
+	由于系统的可能状态数随粒子数指数增长 ($2^{N^2}$)，直接计算配分函数在计算上不可行。本研究采用 Metropolis-Hastings 蒙特卡洛算法 (MCMC) 进行重要性采样，以仿真系统在特定温度 $T$ 下的热力学平衡态。
+	
+	算法具体迭代步骤如下：
+	
+	初始化：随机生成一个初始自旋组态（高温无序态）。
+	
+	单点翻转尝试：在晶格中随机选取一个格点 $i$，假设将其自旋翻转 ($s_i \to -s_i$)。
+	
+	能量差计算：计算翻转前后系统的能量变化 $\Delta E$：
+	
+	$$\Delta E = E_{new} - E_{old} = 2 J s_i \sum_{neighbors} s_j$$
+	
+	接受判据 (Metropolis Criterion)：
+	
+	若 $\Delta E \le 0$：翻转后系统能量降低（趋于稳定），必定接受该翻转。
+	
+	若 $\Delta E > 0$：翻转后系统能量升高，则以玻尔兹曼概率 $P$ 随机接受该翻转：
+	
+	$$P = \exp\left(-\frac{\Delta E}{k_B T}\right)$$(本模拟中简化取玻尔兹曼常数 $k_B=1$)。
+	
+	循环迭代：重复上述步骤，驱动系统向热力学平衡态演化。
+	
+	\subsection{MATLAB 实现与可视化设计}
+	本研究利用 MATLAB 强大的矩阵运算与图形处理功能实现仿真：
+	
+	交互式参数输入： 利用 inputdlg 函数构建图形用户界面 (GUI)，允许用户在运行时自定义网格尺寸 $N$、温度 $T$ 及总步数，增强了实验的灵活性。
+	
+	微观场可视化： 使用 quiver 函数绘制二维向量场，以箭头方向直观展示每个格点的自旋状态 ($s_i = \pm 1$)，实现微观结构的动态监测。实时数据监测： 
+	
+	通过 drawnow 函数实时刷新图像，动态绘制系统平均磁化强度 $M$ 随时间演化的曲线，用于判断相变发生的时刻。
+	
+	\section{研究内容}
+	\subsection{实验环境与核心代码实现}
+	本实验在 MATLAB (\ref{fig2-2})环境下进行，硬件环境为一般个人计算器。程序主体采用模块化设计，分为「参数输入」、「Metropolis 迭代核心」与「可视化输出」三个部分。为了确保模拟的物理准确性，核心迭代部分采用了向量化编程以提高运算效率。
+	
+	\begin{figure}[H]
+		\begin{center}
+			\includegraphics[scale=0.5]{images/2-2.png}
+			\caption{Matlab}
+			\label{fig2-2}
+		\end{center}
+	\end{figure}
+	\subsection{实验方案与参数设置}
+	为了全面探究温度对系统磁性的影响，本研究设计了三组对比实验，分别对应伊辛模型的三种典型状态：高温顺磁态、低温铁磁态以及临界相变态。实验统一设定网格尺寸为 $N=100$（即 $100 \times 100$ 个自旋粒子），边界条件为周期性边界，耦合常数 $J=1$。具体实验分组参数如下表所示：
+	
+	\begin{table}[H]
+		\centering
+		\caption{二维伊辛模型数值仿真实验参数设置表}
+		\label{tab:experiment_params_pro}
+		\begin{tabular}{cccl} % 注意这里没有竖线 | 了
+			\toprule  % 顶部粗线
+			\textbf{实验组别} & \textbf{温度 ($T$)} & \textbf{步数} & \textbf{预期物理目标} \\
+			\midrule  % 中间细线
+			第一组 & $4.0$ & 3000 & 验证高温下的热扰动与无序状态 \\
+			第二组 & $1.0$ & 3000 & 观测能量主导下的自发对称性破缺 \\
+			第三组 & $2.269$ & 5000 & 探究临界点附近的涨落现象 \\
+			\bottomrule % 底部粗线
+		\end{tabular}
+	\end{table}
+	
+	\subsection{具体实验过程数据}
+	\subsubsection{实验一：高温无序相 ($T=4.0$)}
+	将系统温度设定为 $T=4.0$ (远高于理论临界点 $T_c \approx 2.269$)。程序运行初期，系统自旋随机分布。随着模拟步数增加，由于热能 $k_B T$ 远大于交换作用能 $J$，系统始终无法形成稳定的磁畴。
+	
+	1000步情况(\ref{fig2-3})：
+	\begin{figure}[H]
+		\begin{center}
+			\includegraphics[scale=0.7]{images/2-3.png}
+			\caption{1000paths}
+			\label{fig2-3}
+		\end{center}
+	\end{figure}
+	2000步情况(\ref{fig2-4})：
+	\begin{figure}[H]
+		\begin{center}
+			\includegraphics[scale=0.7]{images/2-4.png}
+			\caption{2000paths}
+			\label{fig2-4}
+		\end{center}
+	\end{figure}
+	3000步情况(\ref{fig2-5})：
+	\begin{figure}[H]
+		\begin{center}
+			\includegraphics[scale=0.5]{images/2-5.png}
+			\caption{3000paths}
+			\label{fig2-5}
+		\end{center}
+	\end{figure}
+	各阶段总磁化强度(\ref{fig2-6})：
+	\begin{figure}[H]
+		\begin{center}
+			\includegraphics[scale=0.5]{images/2-6.png}
+			\caption{M strength}
+			\label{fig2-6}
+		\end{center}
+	\end{figure}
+	
+	\subsubsection{实验二：低温有序相 ($T=1.0$)}
+	将温度降低至 $T=1.0$。在仿真的前期，系统处于亚稳态；经过约 1000-1500 步的演化后，系统迅速发生对称性破缺，自旋方向趋于统一，总磁化强度曲线呈现阶跃式上升。
+	1000步情况(\ref{fig2-7})：
+	\begin{figure}[H]
+		\begin{center}
+			\includegraphics[scale=0.7]{images/2-7.png}
+			\caption{1000paths}
+			\label{fig2-7}
+		\end{center}
+	\end{figure}
+	2000步情况(\ref{fig2-8})：
+	\begin{figure}[H]
+		\begin{center}
+			\includegraphics[scale=0.7]{images/2-8.png}
+			\caption{2000paths}
+			\label{fig2-8}
+		\end{center}
+	\end{figure}
+	3000步情况(\ref{fig2-9})：
+	\begin{figure}[H]
+		\begin{center}
+			\includegraphics[scale=0.5]{images/2-9.png}
+			\caption{3000paths}
+			\label{fig2-9}
+		\end{center}
+	\end{figure}
+	各阶段总磁化强度(\ref{fig2-10})：
+	\begin{figure}[H]
+		\begin{center}
+			\includegraphics[scale=0.4]{images/2-10.png}
+			\caption{M strength}
+			\label{fig2-10}
+		\end{center}
+	\end{figure}
+	
+	\subsubsection{实验三：临界区间 ($T=2.269$)}
+	将温度设定在临界值 $T=2.269$ 附近。为了捕捉复杂的涨落现象，适当延长了模拟步数。观测发现，系统中出现了不同尺度的磁畴嵌套结构，且磁化强度曲线表现出剧烈的震荡特征，不再收敛于单一数值。
+	
+	1000步情况(\ref{fig2-11})：
+	\begin{figure}[H]
+		\begin{center}
+			\includegraphics[scale=0.7]{images/2-11.png}
+			\caption{1000paths}
+			\label{fig2-11}
+		\end{center}
+	\end{figure}
+	2000步情况(\ref{fig2-12})：
+	\begin{figure}[H]
+		\begin{center}
+			\includegraphics[scale=0.7]{images/2-12.png}
+			\caption{2000paths}
+			\label{fig2-12}
+		\end{center}
+	\end{figure}
+	3000步情况(\ref{fig2-13})：
+	\begin{figure}[H]
+		\begin{center}
+			\includegraphics[scale=0.5]{images/2-13.png}
+			\caption{3000paths}
+			\label{fig2-13}
+		\end{center}
+	\end{figure}
+	各阶段总磁化强度(\ref{fig2-14})：
+	\begin{figure}[H]
+		\begin{center}
+			\includegraphics[scale=0.7]{images/2-14.png}
+			\caption{M strength}
+			\label{fig2-14}
+		\end{center}
+	\end{figure}
+	
+	
+	\section{结论和未来展望}
+	\subsection{研究结论}
+	本文基于 MATLAB 平台，利用 Metropolis-Hastings 蒙特卡洛算法对二维伊辛模型 (2D Ising Model) 进行了数值模拟，并开发了可视化交互界面，从微观与宏观两个维度探究了铁磁系统的热力学相变规律。主要结论如下：
+	
+	\begin{enumerate}\item 成功复现热力学二阶相变： 仿真结果清晰地展示了系统在临界温度 $T_c \approx 2.27$ 附近的相变行为。实验数据表明，当 $T > T_c$ 时，热扰动占主导，系统处于无序的顺磁态（总磁化强度 $M \approx 0$）；当 $T < T_c$ 时，交换相互作用占主导，系统自发演化为有序的铁磁态（$M \to 1$）。\item 直观验证了自发对称性破缺： 通过引入微观自旋向量场的可视化技术，本研究捕捉到了系统在低温下从高对称性（无序）向低对称性（有序）坍缩的动态过程。这一现象直观地验证了物理学中「自发对称性破缺」的机制，即系统基态随机选择了某一个特定的磁化方向。\item 能量与熵的竞争机制： 实验对比了不同温度下的稳态结构，揭示了热力学系统演化的本质是能量最小化（有序倾向）与熵最大化（无序倾向）之间的博弈。
+	\end{enumerate}
+	
+	\subsection{不足与未来展望}
+	尽管本仿真成功展示了伊辛模型的核心物理图像，但受限于计算资源与时间，仍存在一定局限性。未来的研究可在以下几个方向进行拓展：
+	
+	\begin{enumerate}\item 
+		引入外部磁场 ($B \neq 0$)：目前的模型仅考虑了零场情况。未来可以在哈密顿量中加入外部磁场项 $H = -J \sum s_i s_j - B \sum s_i$，以此研究磁滞回线 (Hysteresis Loop) 现象，仿真磁性存储材料的写入与擦除过程。
+	\end{enumerate}
+	
+	\section{致谢}
+	致谢 文号老师，致谢 我自己，致谢 Gemini Agent
+	\section{附录}
+	\subsection{源代码}
+	\begin{lstlisting}[style=commonCodeStyle, caption={lsing-model simulater.m}, label={lst:1-1}]
+		%% ==========================================================
+		%  【录像增强版】二维伊辛模型物理仿真
+		%  基于你的修复版代码，新增了 .avi 影片录制功能
+		%  ==========================================================
+		clc; clear; close all;
+		
+		%% 1. GUI 用户参数输入 (弹窗设计)
+		% ----------------------------------------------------------
+		prompt = {'输入网格大小 N (建议 30-50):', ...
+			'输入温度 T (临界点约 2.27):', ...
+			'输入模拟总步数 (建议 >2000):', ...
+			'是否录制影片? (1=是, 0=否):'}; % <--- ✨ [新增 1] 录像选项
+		dlgtitle = '伊辛模型参数设置';
+		dims = [1 40];
+		% 默认值 (默认开启录像)
+		definput = {'100', '2.27', '3000', '1'}; 
+		
+		% 弹出对话框获取输入
+		answer = inputdlg(prompt, dlgtitle, dims, definput);
+		
+		% 如果用户点击取消，则退出
+		if isempty(answer)
+		disp('用户取消操作。');
+		return;
+		end
+		
+		% 将输入的字符串转换为数字
+		N = str2double(answer{1});
+		T = str2double(answer{2});
+		total_steps = str2double(answer{3});
+		is_record = str2double(answer{4}); % <--- ✨ [新增 2] 读取录像标记
+		J = 1; 
+		
+		fprintf('开始模拟: N=%d, T=%.2f, Steps=%d, Video=%d\n', N, T, total_steps, is_record);
+		
+		%% ✨ [新增 3] 视频文件初始化 ✨
+		if is_record == 1
+		% 自动命名文件名，例如 Ising_T2.27.avi
+		video_filename = ['Ising_T', num2str(T), '.avi'];
+		v = VideoWriter(video_filename); 
+		v.FrameRate = 15; % 设置播放速度 (数值越大越快)
+		open(v);
+		fprintf('--> 正在录制影片，保存为: %s \n', video_filename);
+		end
+		
+		% ----------------------------------------------------------
+		
+		%% 2. 系统初始化
+		% 随机初始化网格 (+1 或 -1)
+		grid_spin = sign(rand(N, N) - 0.5); 
+		grid_spin(grid_spin == 0) = 1; 
+		
+		% 创建一个网格坐标系统，用于画箭头
+		[X, Y] = meshgrid(1:N, 1:N);
+		
+		% 准备绘图窗口
+		figure('Name', '高级伊辛模型物理仿真', 'Color', 'white', 'Position', [50, 100, 1400, 500]);
+		magnetization_history = zeros(1, total_steps);
+		
+		%% 3. 主循环 (Metropolis Monte Carlo)
+		for step = 1:total_steps
+		
+		% --- Metropolis 算法核心 ---
+		for k = 1 : (N * N) 
+		r = randi(N); c = randi(N);
+		r_up = mod(r - 2, N) + 1; r_down = mod(r, N) + 1;
+		c_left = mod(c - 2, N) + 1; c_right= mod(c, N) + 1;
+		
+		sum_neighbors = grid_spin(r_up, c) + grid_spin(r_down, c) + ...
+		grid_spin(r, c_left) + grid_spin(r, c_right);
+		
+		dE = 2 * J * grid_spin(r, c) * sum_neighbors;
+		
+		if dE <= 0 || rand() < exp(-dE / T)
+		grid_spin(r, c) = -grid_spin(r, c);
+		end
+		end
+		
+		% --- 记录数据 ---
+		magnetization_history(step) = abs(sum(grid_spin(:))) / (N * N);
+		
+		% --- 高级实时可视化 (每 20 步刷新一次) ---
+		if mod(step, 20) == 0 || step == 1
+		% [图1：宏观色块图]
+		subplot(1, 3, 1);
+		imagesc(grid_spin); 
+		colormap(jet(2)); 
+		title(['宏观磁畴 (Step: ', num2str(step), ')'], 'FontSize', 12);
+		axis square; axis off;
+		
+		% [图2：微观自旋箭头图]
+		subplot(1, 3, 2);
+		U = zeros(N, N); 
+		V = grid_spin;   
+		quiver(X, Y, U, V, 0.6, 'k', 'LineWidth', 1); 
+		xlim([0.5 N+0.5]); ylim([0.5 N+0.5]);
+		title('微观自旋组态 (箭头指向)', 'FontSize', 12);
+		axis square; 
+		set(gca, 'YDir', 'reverse'); 
+		box on; grid off;
+		
+		% [图3：数据曲线图]
+		subplot(1, 3, 3);
+		plot(1:step, magnetization_history(1:step), 'r-', 'LineWidth', 1.5);
+		xlim([0 total_steps]); ylim([0 1.1]);
+		xlabel('时间步', 'FontSize', 10);
+		ylabel('总磁化强度 |M|', 'FontSize', 10);
+		title(['相变过程 (T = ', num2str(T), ')'], 'FontSize', 12);
+		grid on;
+		
+		drawnow; 
+		
+		%% ✨ [新增 4] 写入影片帧 ✨
+		if is_record == 1
+		frame = getframe(gcf); % 抓取当前窗口画面
+		writeVideo(v, frame);  % 写入影片
+		end
+		end
+		end
+		
+		%% ✨ [新增 5] 收尾工作 ✨
+		if is_record == 1
+		close(v); % 关闭影片文件，保存数据
+		msgbox(['模拟完成！影片已保存为: ', video_filename], '成功');
+		else
+		msgbox('模拟完成！请截图保存结果图。', '成功');
+		end
+		
+		disp('模拟完成！');
+		
+	\end{lstlisting}
+	
+	\subsection{可导入Matlab影音文件}
+	详见附件
+	
+	\section{参考文献}
+	1. Metropolis, N., Rosenbluth, A. W., Rosenbluth, M. N., Teller, A. H., Teller, E. (1953). Equation of state calculations by fast computing machines. The Journal of Chemical Physics, 21(6), 1087-1092.
+	
+	2. Pathria, R. K., Beale, P. D. (2011). Statistical Mechanics (3rd ed.). Academic Press.
+	
+	3. Landau, D. P., Binder, K. (2014). A Guide to Monte Carlo Simulations in Statistical Physics (4th ed.). Cambridge University Press.
+	
+	
+	
+	
+	
+	
+\end{document}

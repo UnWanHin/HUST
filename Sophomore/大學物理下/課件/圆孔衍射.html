@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2D 任意形状衍射模拟器 (FFT Simulation)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #121212;
+            color: #eee;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 侧边栏样式 */
+        .sidebar {
+            width: 300px;
+            background-color: #1e1e1e;
+            padding: 20px;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 10;
+        }
+
+        h2 { margin: 0 0 10px 0; font-size: 1.2rem; color: #00bcd4; }
+        .group { border-bottom: 1px solid #333; padding-bottom: 15px; }
+
+        label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: #aaa; }
+        
+        select, button {
+            width: 100%;
+            padding: 8px;
+            background: #333;
+            color: white;
+            border: 1px solid #444;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        select:hover, button:hover { background: #444; }
+
+        input[type=range] { width: 100%; margin: 5px 0; cursor: pointer; }
+        
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        input[type=checkbox] { width: auto; }
+
+        /* 主视图样式 */
+        .main-view {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            background: #000;
+            position: relative;
+        }
+
+        .canvas-wrapper {
+            text-align: center;
+        }
+        
+        canvas {
+            background-color: #000;
+            border: 1px solid #333;
+            box-shadow: 0 0 20px rgba(0, 188, 212, 0.1);
+            image-rendering: pixelated; /* 保持像素清晰 */
+        }
+
+        .label {
+            margin-top: 10px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .loading {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #00bcd4;
+            font-weight: bold;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>💠 衍射图案生成器</h2>
+    
+    <div class="group">
+        <label>孔径形状 (Aperture Shape)</label>
+        <select id="shapeSelect">
+            <option value="circle">圆形 (Circle)</option>
+            <option value="square">正方形 (Square)</option>
+            <option value="rect_h">长方形-水平 (Rectangle H)</option>
+            <option value="rect_v">长方形-垂直 (Rectangle V)</option>
+            <option value="triangle">等边三角形 (Triangle)</option>
+            <option value="pentagon">五边形 (Pentagon)</option>
+            <option value="hexagon">六边形 (Hexagon)</option>
+            <option value="octagon">八边形 (Octagon)</option>
+            <option value="star">五角星 (Star)</option>
+            <option value="double_slit">双缝 (Double Slit)</option>
+            <option value="cross">十字丝 (Cross)</option>
+            <option value="grid">点阵 (Grid 3x3)</option>
+            <option value="random">随机散斑 (Random)</option>
+        </select>
+    </div>
+
+    <div class="group">
+        <label>孔径大小 (Size): <span id="val_size">30</span></label>
+        <input type="range" id="sizeRange" min="5" max="50" value="30">
+
+        <label>旋转角度 (Rotation): <span id="val_rot">0</span>°</label>
+        <input type="range" id="rotRange" min="0" max="360" value="0">
+        
+        <label class="checkbox-row">
+            <input type="checkbox" id="autoRot"> 自动旋转动画
+        </label>
+    </div>
+
+    <div class="group">
+        <label>亮度/曝光 (Exposure)</label>
+        <input type="range" id="expRange" min="1" max="100" value="50">
+        
+        <label>色彩模式 (Color Map)</label>
+        <select id="colorMap">
+            <option value="green">激光绿 (Laser Green)</option>
+            <option value="red">激光红 (Laser Red)</option>
+            <option value="bw">黑白 (Grayscale)</option>
+            <option value="magma">热力图 (Magma)</option>
+            <option value="rainbow">光谱 (Spectrum)</option>
+        </select>
+    </div>
+
+    <div style="font-size:0.8rem; color:#666;">
+        <p><strong>原理：</strong>利用 2D 快速傅里叶变换 (FFT) 计算孔径函数的频谱。</p>
+        <p>孔径形状的傅里叶变换模的平方即为远场衍射光强分布。</p>
+    </div>
+</div>
+
+<div class="main-view">
+    <div class="loading" id="loadingTag">计算中 / Computing...</div>
+    
+    <div class="canvas-wrapper">
+        <canvas id="apertureCanvas" width="256" height="256"></canvas>
+        <div class="label">孔径形状 (Aperture Function)</div>
+    </div>
+
+    <div class="canvas-wrapper">
+        <canvas id="diffractionCanvas" width="256" height="256"></canvas>
+        <div class="label">衍射图样 (Diffraction Pattern)</div>
+    </div>
+</div>
+
+<script>
+    /**
+     * 核心逻辑：
+     * 1. 在左侧 Canvas 绘制白色几何图形。
+     * 2. 读取像素数据作为实部，虚部为0。
+     * 3. 执行 2D FFT。
+     * 4. 计算模的平方（光强）。
+     * 5. 进行 FFT Shift（将低频移到中心）。
+     * 6. 应用对数变换增强细节。
+     * 7. 渲染到右侧 Canvas。
+     */
+
+    const SIZE = 256; // FFT Grid Size (Power of 2)
+    const cvsA = document.getElementById('apertureCanvas');
+    const ctxA = cvsA.getContext('2d', { willReadFrequently: true });
+    const cvsD = document.getElementById('diffractionCanvas');
+    const ctxD = cvsD.getContext('2d');
+
+    // UI Elements
+    const shapeSelect = document.getElementById('shapeSelect');
+    const sizeRange = document.getElementById('sizeRange');
+    const rotRange = document.getElementById('rotRange');
+    const autoRotCheck = document.getElementById('autoRot');
+    const expRange = document.getElementById('expRange');
+    const colorMapSelect = document.getElementById('colorMap');
+    const loadingTag = document.getElementById('loadingTag');
+    const valSize = document.getElementById('val_size');
+    const valRot = document.getElementById('val_rot');
+
+    let animationId = null;
+    let isComputing = false;
+    let lastRotation = 0;
+
+    // --- Complex Number Class for FFT ---
+    class Complex {
+        constructor(re, im) { this.re = re; this.im = im; }
+    }
+
+    // --- Drawing Shapes ---
+    function drawAperture() {
+        // Clear
+        ctxA.fillStyle = '#000';
+        ctxA.fillRect(0, 0, SIZE, SIZE);
+        
+        // Setup
+        const cx = SIZE / 2;
+        const cy = SIZE / 2;
+        const size = parseInt(sizeRange.value);
+        const rot = parseInt(rotRange.value) * Math.PI / 180;
+        const shape = shapeSelect.value;
+
+        ctxA.fillStyle = '#fff';
+        ctxA.translate(cx, cy);
+        ctxA.rotate(rot);
+
+        ctxA.beginPath();
+        
+        switch (shape) {
+            case 'circle':
+                ctxA.arc(0, 0, size, 0, Math.PI * 2);
+                ctxA.fill();
+                break;
+            case 'square':
+                ctxA.rect(-size, -size, size*2, size*2);
+                ctxA.fill();
+                break;
+            case 'rect_h':
+                ctxA.rect(-size*2, -size/2, size*4, size);
+                ctxA.fill();
+                break;
+            case 'rect_v':
+                ctxA.rect(-size/2, -size*2, size, size*4);
+                ctxA.fill();
+                break;
+            case 'triangle':
+                drawPolygon(3, size * 2);
+                break;
+            case 'pentagon':
+                drawPolygon(5, size * 1.5);
+                break;
+            case 'hexagon':
+                drawPolygon(6, size * 1.5);
+                break;
+            case 'octagon':
+                drawPolygon(8, size * 1.5);
+                break;
+            case 'star':
+                drawStar(5, size * 2, size * 0.8);
+                break;
+            case 'double_slit':
+                // 两个窄缝
+                ctxA.rect(-size, -size*2, size/2, size*4);
+                ctxA.rect(size/2, -size*2, size/2, size*4);
+                ctxA.fill();
+                break;
+            case 'cross':
+                ctxA.rect(-size*2, -size/4, size*4, size/2);
+                ctxA.rect(-size/4, -size*2, size/2, size*4);
+                ctxA.fill();
+                break;
+            case 'grid':
+                const sp = size * 0.8;
+                for(let i=-1; i<=1; i++) {
+                    for(let j=-1; j<=1; j++) {
+                        ctxA.beginPath();
+                        ctxA.arc(i*sp*2.5, j*sp*2.5, sp/2, 0, Math.PI*2);
+                        ctxA.fill();
+                    }
+                }
+                break;
+            case 'random':
+                // 重置变换，因为随机点不需要整体旋转，或者说不需要居中旋转
+                ctxA.rotate(-rot);
+                ctxA.translate(-cx, -cy);
+                for(let i=0; i<30; i++) {
+                    const x = Math.random() * SIZE;
+                    const y = Math.random() * SIZE;
+                    const r = Math.random() * 2 + 1;
+                    ctxA.beginPath();
+                    ctxA.arc(x, y, r, 0, Math.PI*2);
+                    ctxA.fillStyle = '#fff';
+                    ctxA.fill();
+                }
+                break;
+        }
+
+        // Reset Transform
+        if (shape !== 'random') {
+            ctxA.rotate(-rot);
+            ctxA.translate(-cx, -cy);
+        }
+    }
+
+    function drawPolygon(sides, radius) {
+        ctxA.moveTo(radius, 0);
+        for (let i = 1; i <= sides; i++) {
+            const angle = i * 2 * Math.PI / sides;
+            ctxA.lineTo(Math.cos(angle) * radius, Math.sin(angle) * radius);
+        }
+        ctxA.fill();
+    }
+
+    function drawStar(points, outer, inner) {
+        ctxA.moveTo(outer, 0);
+        for (let i = 0; i < points * 2; i++) {
+            const r = (i % 2 === 1) ? inner : outer;
+            const angle = (i+1) * Math.PI / points; // Rotate slightly
+            ctxA.lineTo(Math.cos(angle) * r, Math.sin(angle) * r);
+        }
+        ctxA.fill();
+    }
+
+    // --- FFT Implementation ---
+    // 基础 1D FFT (Radix-2 Cooley-Tukey)
+    function fft(data) {
+        const N = data.length;
+        if (N <= 1) return data;
+
+        const even = new Array(N / 2);
+        const odd = new Array(N / 2);
+        for (let i = 0; i < N / 2; i++) {
+            even[i] = data[2 * i];
+            odd[i] = data[2 * i + 1];
+        }
+
+        const evenResult = fft(even);
+        const oddResult = fft(odd);
+
+        const result = new Array(N);
+        for (let k = 0; k < N / 2; k++) {
+            const angle = -2 * Math.PI * k / N;
+            const wk = new Complex(Math.cos(angle), Math.sin(angle));
+            
+            // oddResult[k] * wk
+            const tRe = wk.re * oddResult[k].re - wk.im * oddResult[k].im;
+            const tIm = wk.re * oddResult[k].im + wk.im * oddResult[k].re;
+
+            result[k] = new Complex(evenResult[k].re + tRe, evenResult[k].im + tIm);
+            result[k + N / 2] = new Complex(evenResult[k].re - tRe, evenResult[k].im - tIm);
+        }
+        return result;
+    }
+
+    // 2D FFT: Row then Column
+    function computeFFT() {
+        if (isComputing) return;
+        isComputing = true;
+        // loadingTag.style.display = 'block';
+
+        // 1. Get Image Data
+        const imgData = ctxA.getImageData(0, 0, SIZE, SIZE);
+        const data = imgData.data; // RGBA
+        
+        // Prepare 2D Complex Array
+        let input2D = [];
+        for (let y = 0; y < SIZE; y++) {
+            let row = [];
+            for (let x = 0; x < SIZE; x++) {
+                // Take Green channel as intensity
+                const val = data[(y * SIZE + x) * 4 + 1] / 255.0; 
+                row.push(new Complex(val, 0));
+            }
+            input2D.push(row);
+        }
+
+        // 2. FFT Rows
+        for (let y = 0; y < SIZE; y++) {
+            input2D[y] = fft(input2D[y]);
+        }
+
+        // 3. Transpose & FFT Cols
+        let cols = [];
+        for (let x = 0; x < SIZE; x++) {
+            let col = [];
+            for (let y = 0; y < SIZE; y++) {
+                col.push(input2D[y][x]);
+            }
+            cols.push(fft(col));
+        }
+
+        // 4. Calculate Magnitude & Shift
+        const outputGrid = new Float32Array(SIZE * SIZE);
+        let maxVal = 0;
+
+        for (let x = 0; x < SIZE; x++) {
+            for (let y = 0; y < SIZE; y++) {
+                const c = cols[x][y];
+                const magSq = c.re * c.re + c.im * c.im;
+                
+                // FFT Shift: (x, y) -> ((x+N/2)%N, (y+N/2)%N)
+                const sy = (y + SIZE/2) % SIZE;
+                const sx = (x + SIZE/2) % SIZE;
+                
+                outputGrid[sy * SIZE + sx] = magSq;
+                if (magSq > maxVal) maxVal = magSq;
+            }
+        }
+
+        // 5. Draw Result
+        drawDiffractionPattern(outputGrid, maxVal);
+
+        isComputing = false;
+        // loadingTag.style.display = 'none';
+    }
+
+    // --- Rendering ---
+    function drawDiffractionPattern(grid, maxVal) {
+        const imgData = ctxD.createImageData(SIZE, SIZE);
+        const d = imgData.data;
+        const exposure = parseInt(expRange.value);
+        const logScale = 1000 * (exposure / 50); // Dynamic Range Factor
+        const mode = colorMapSelect.value;
+
+        for (let i = 0; i < grid.length; i++) {
+            // Logarithmic Scaling: log(1 + C * I)
+            // Normalized to 0-1
+            let val = Math.log(1 + logScale * (grid[i] / maxVal)) / Math.log(1 + logScale);
+            val = Math.max(0, Math.min(1, val));
+            
+            const idx = i * 4;
+            const rgb = mapColor(val, mode);
+            
+            d[idx] = rgb[0];
+            d[idx+1] = rgb[1];
+            d[idx+2] = rgb[2];
+            d[idx+3] = 255;
+        }
+        ctxD.putImageData(imgData, 0, 0);
+    }
+
+    function mapColor(t, mode) {
+        // t is 0.0 to 1.0
+        let r=0, g=0, b=0;
+        
+        if (mode === 'green') {
+            g = Math.floor(t * 255);
+            // Slightly brighter core
+            if(t > 0.9) { r=g; b=g; } 
+        } 
+        else if (mode === 'red') {
+            r = Math.floor(t * 255);
+            if(t > 0.9) { g=r; b=r; }
+        }
+        else if (mode === 'bw') {
+            const v = Math.floor(t * 255);
+            r=v; g=v; b=v;
+        }
+        else if (mode === 'magma') {
+            // Simple Approx of Magma
+            r = Math.floor(Math.min(1, t * 2) * 255);
+            g = Math.floor(Math.min(1, Math.max(0, t * 2 - 0.5)) * 255);
+            b = Math.floor(Math.max(0, t * 3 - 2) * 255);
+            // More purplish darks
+            if(t < 0.3) { r = Math.floor(t*200); b = Math.floor(t*255); g = 0;}
+        }
+        else if (mode === 'rainbow') {
+            // HSV to RGB approx
+            const h = (1.0 - t) * 240 / 360; 
+            const s = 1, v = t;
+            const rgb = hsvToRgb(h, s, v);
+            return rgb;
+        }
+
+        return [r, g, b];
+    }
+    
+    // Helper for Rainbow
+    function hsvToRgb(h, s, v) {
+        let r, g, b;
+        let i = Math.floor(h * 6);
+        let f = h * 6 - i;
+        let p = v * (1 - s);
+        let q = v * (1 - f * s);
+        let t = v * (1 - (1 - f) * s);
+        switch (i % 6) {
+            case 0: r = v; g = t; b = p; break;
+            case 1: r = q; g = v; b = p; break;
+            case 2: r = p; g = v; b = t; break;
+            case 3: r = p; g = q; b = v; break;
+            case 4: r = t; g = p; b = v; break;
+            case 5: r = v; g = p; b = q; break;
+        }
+        return [r * 255, g * 255, b * 255];
+    }
+
+    // --- Interaction Logic ---
+    function updateAll() {
+        valSize.innerText = sizeRange.value;
+        valRot.innerText = rotRange.value;
+        
+        drawAperture();
+        
+        // FFT is heavy, execute it in next frame to allow UI update
+        requestAnimationFrame(computeFFT);
+    }
+
+    // Event Listeners
+    [shapeSelect, sizeRange, expRange, colorMapSelect].forEach(el => {
+        el.addEventListener('input', updateAll);
+    });
+
+    // Rotation needs to handle animation
+    rotRange.addEventListener('input', () => {
+        lastRotation = parseInt(rotRange.value);
+        updateAll();
+    });
+
+    // Auto Animation Loop
+    function animate() {
+        if (!autoRotCheck.checked) return;
+        
+        lastRotation = (lastRotation + 1) % 360;
+        rotRange.value = lastRotation;
+        valRot.innerText = lastRotation;
+        
+        drawAperture();
+        computeFFT();
+        
+        animationId = requestAnimationFrame(animate);
+    }
+
+    autoRotCheck.addEventListener('change', (e) => {
+        if (e.target.checked) {
+            lastRotation = parseInt(rotRange.value);
+            animate();
+        } else {
+            cancelAnimationFrame(animationId);
+        }
+    });
+
+    // Initial Run
+    updateAll();
+
+</script>
+</body>
+</html>
