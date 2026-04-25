@@ -1,0 +1,34 @@
+#include<stdio.h>
+
+/*****请在下面补充函数 inArray、selectSort 和 outArray 的定义 *****/
+void inArray(int arr[],int n)
+{
+	for(int i=0;i<n;i++)
+	{
+		scanf("%d",&arr[i]);
+	}
+}
+
+void selectSort(int arr[],int n)
+{
+     int i, j;
+    int v;
+    for(i = 0; i < n - 1; i ++)
+        for(j = i+1; j < n; j ++)
+        {
+            if(arr[i] > arr[j])
+            {
+                v = arr[i];
+                arr[i] = arr[j];
+                arr[j] = v;
+            }
+        }
+}
+
+void outArray(int arr[],int n)
+{
+    for(int b=0;b<n;b++)
+	{
+	printf("%d ",arr[b]);	
+	}
+}

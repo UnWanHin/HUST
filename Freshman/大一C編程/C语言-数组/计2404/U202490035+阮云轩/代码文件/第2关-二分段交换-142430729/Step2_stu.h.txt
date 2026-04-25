@@ -1,0 +1,25 @@
+#include<stdio.h>
+/**********  Begin  **********/
+void move(int arr[],int n,int k){
+	
+    int a[10000],b=0;
+    for(int i=k;i<=n-1;i++)
+    {
+        a[b]=arr[i];
+        b++;
+    }
+    for(int c=0;c<k;c++)
+    {
+        a[b]=arr[c];
+		b++;
+    }
+
+    for(int d=0;d<n;d++)
+    {
+        arr[d]=a[d];
+    }
+    
+    
+}
+
+/**********  End  **********/
