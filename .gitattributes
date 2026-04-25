@@ -8,3 +8,4 @@ Sophomore/人工智能導論/狗类识别_阮云轩_U202490035/Dog_Breed.zip fil
 Sophomore/人工智能導論/狗类识别_阮云轩_U202490035.zip filter=lfs diff=lfs merge=lfs -text
 Sophomore/數據庫系統原理/課件/800124151-数据库系统概论-第六版.pdf filter=lfs diff=lfs merge=lfs -text
 Freshman/新生實踐/224/ryx035.zip filter=lfs diff=lfs merge=lfs -text
+Freshman/新生實踐/配置/TexLive/*.rar filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,75 @@
+This is BibTeX, Version 0.99d (TeX Live 2024)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: Experimental_Report.aux
+The style file: Experimental_Report.bst
+Illegal, another \bibstyle command---line 43 of file Experimental_Report.aux
+ : \bibstyle
+ :          {Experimental_Report}
+I'm skipping whatever remains of this command
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Database file #1: Experimental_Report.bib
+Warning--string name "feb" is undefined
+--line 8 of file Experimental_Report.bib
+Name 2 in "Chen, Jiazhong and Li, Zongyi, and Jin, Yi and Ren, Dakai and Ling, hefei" has a comma at the end for entry STR2021Neurocom
+while executing---line 1933 of file Experimental_Report.bst
+Name 2 in "Chen, Jiazhong and Li, Zongyi, and Jin, Yi and Ren, Dakai and Ling, hefei" has a comma at the end for entry STR2021Neurocom
+while executing---line 1933 of file Experimental_Report.bst
+Name 2 in "Chen, Jiazhong and Li, Zongyi, and Jin, Yi and Ren, Dakai and Ling, hefei" has a comma at the end for entry STR2021Neurocom
+while executing---line 1933 of file Experimental_Report.bst
+Name 2 in "Chen, Jiazhong and Li, Zongyi, and Jin, Yi and Ren, Dakai and Ling, hefei" has a comma at the end for entry STR2021Neurocom
+while executing---line 1933 of file Experimental_Report.bst
+Warning--Require address: Mehrabian1974An
+Warning--Require citedate: baf96
+Warning--Require year: ski17
+Warning--Require citedate: ski17
+Warning--Require address: LTE2015MIP
+Warning--Require author: MIH2010IEEE
+Warning--Require address: Dai2008Semantic
+Warning--Require country: Multiplexing2000USA
+Warning--Require patentid: Multiplexing2000USA
+Warning--Require year: Euro2015WG
+Warning--Require year: Euro2015WG
+You've used 18 entries,
+            3051 wiz_defined-function locations,
+            818 strings with 8870 characters,
+and the built_in function-call counts, 27361 in all, are:
+= -- 2967
+> -- 60
+< -- 135
++ -- 2377
+- -- 198
+* -- 771
+:= -- 3101
+add.period$ -- 0
+call.type$ -- 18
+change.case$ -- 84
+chr.to.int$ -- 0
+cite$ -- 29
+duplicate$ -- 3797
+empty$ -- 1035
+format.name$ -- 168
+if$ -- 7285
+int.to.chr$ -- 0
+int.to.str$ -- 18
+missing$ -- 0
+newline$ -- 81
+num.names$ -- 17
+pop$ -- 396
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 280
+stack$ -- 0
+substring$ -- 3159
+swap$ -- 731
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 11
+while$ -- 379
+width$ -- 20
+write$ -- 243
+(There were 5 error messages)
