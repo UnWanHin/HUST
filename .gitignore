@@ -1,0 +1,36 @@
+*
+!.gitignore
+!.gitattributes
+!Freshman/
+!Freshman/**
+!Sophomore/
+!Sophomore/**
+# Exclude nested git repositories
+Freshman/大一C編程/C_ExperienceReport _backup/
+Freshman/大一C編程/C_ExperienceReport/
+Freshman/大一C編程/LateX_C/
+Freshman/深度中國/Final/
+Freshman/深度中國/Sample - 副本/
+Freshman/深度中國/Sample/
+Freshman/新生實踐/224/Dormitory/
+Freshman/新生實踐/224/ryx035/
+Freshman/新生實踐/224/ryx035/ryx035/
+Freshman/新生實踐/Experiment_report/
+Freshman/新生實踐/Experiment_report/experimental_report_final/
+Freshman/新生實踐/Experiment_report/LateXd模版/
+Freshman/新生實踐/Homework/02_gitee/code_example/
+Freshman/新生實踐/Homework/02_gitee/Experimental_Report/experimental_report/
+Freshman/中國文化史/期末—中國第四次轉型/
+Freshman/中國文化史/期中報告_省博物館參觀/Sample - 副本/
+Freshman/中國文化史/期中報告_省博物館參觀/Sample/
+Freshman/中文文學/note/
+Freshman/中文文學/texsample - 副本/
+Freshman/中文文學/texsample/
+Freshman/IT中國/IT/
+Freshman/LateXd模版/
+Sophomore/博奕論/結課報告/
+Sophomore/程設/結課報告/
+Sophomore/看電影學哲學/結課報告/
+# Exclude files above GitHub LFS 2GB per-file limit
+Freshman/新生實踐/配置/TexLive/texlive.iso
+Sophomore/csapp_lab/source/qemutest/openEuler-20.03-LTS.aarch64.qcow2
