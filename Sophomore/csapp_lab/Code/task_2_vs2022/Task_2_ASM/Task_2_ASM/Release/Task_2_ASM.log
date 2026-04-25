@@ -1,0 +1,14 @@
+﻿  Assembling Task3_Func.asm...
+  Assembling Task4_Func.asm...
+  task4.cpp
+E:\Document\Hust\Sophomore\csapp_lab\Code\task_2_vs2022\Task_2_ASM\Task_2_ASM\task4.cpp(85,21): warning C4244: “初始化”: 从“_Rep”转换到“double”，可能丢失数据
+E:\Document\Hust\Sophomore\csapp_lab\Code\task_2_vs2022\Task_2_ASM\Task_2_ASM\task4.cpp(85,21): warning C4244:         with
+E:\Document\Hust\Sophomore\csapp_lab\Code\task_2_vs2022\Task_2_ASM\Task_2_ASM\task4.cpp(85,21): warning C4244:         [
+E:\Document\Hust\Sophomore\csapp_lab\Code\task_2_vs2022\Task_2_ASM\Task_2_ASM\task4.cpp(85,21): warning C4244:             _Rep=__int64
+E:\Document\Hust\Sophomore\csapp_lab\Code\task_2_vs2022\Task_2_ASM\Task_2_ASM\task4.cpp(85,21): warning C4244:         ]
+  正在生成代码
+  89 of 93 functions (95.7%) were compiled, the rest were copied from previous compilation.
+    4 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+  Task_2_ASM.vcxproj -> E:\Document\Hust\Sophomore\csapp_lab\Code\task_2_vs2022\Task_2_ASM\Release\Task_2_ASM.exe

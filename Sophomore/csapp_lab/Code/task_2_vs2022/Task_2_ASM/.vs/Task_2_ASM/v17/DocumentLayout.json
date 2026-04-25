@@ -1,0 +1,83 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\Document\\Hust\\Sophomore\\csapp_lab\\Code\\task_2_vs2022\\Task_2_ASM\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{5730ACAB-705E-4572-A07A-6752F9F6661D}|Task_2_ASM\\Task_2_ASM.vcxproj|E:\\Document\\Hust\\Sophomore\\csapp_lab\\Code\\task_2_vs2022\\Task_2_ASM\\Task_2_ASM\\task4.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5730ACAB-705E-4572-A07A-6752F9F6661D}|Task_2_ASM\\Task_2_ASM.vcxproj|solutionrelative:Task_2_ASM\\task4.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5730ACAB-705E-4572-A07A-6752F9F6661D}|Task_2_ASM\\Task_2_ASM.vcxproj|E:\\Document\\Hust\\Sophomore\\csapp_lab\\Code\\task_2_vs2022\\Task_2_ASM\\Task_2_ASM\\Task3_Func.asm||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{5730ACAB-705E-4572-A07A-6752F9F6661D}|Task_2_ASM\\Task_2_ASM.vcxproj|solutionrelative:Task_2_ASM\\Task3_Func.asm||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5730ACAB-705E-4572-A07A-6752F9F6661D}|Task_2_ASM\\Task_2_ASM.vcxproj|E:\\Document\\Hust\\Sophomore\\csapp_lab\\Code\\task_2_vs2022\\Task_2_ASM\\Task_2_ASM\\Task4_Func.asm||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{5730ACAB-705E-4572-A07A-6752F9F6661D}|Task_2_ASM\\Task_2_ASM.vcxproj|solutionrelative:Task_2_ASM\\Task4_Func.asm||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{de1fc918-f32e-4dd7-a915-1792a051f26b}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Task4_Func.asm",
+              "DocumentMoniker": "E:\\Document\\Hust\\Sophomore\\csapp_lab\\Code\\task_2_vs2022\\Task_2_ASM\\Task_2_ASM\\Task4_Func.asm",
+              "RelativeDocumentMoniker": "Task_2_ASM\\Task4_Func.asm",
+              "ToolTip": "E:\\Document\\Hust\\Sophomore\\csapp_lab\\Code\\task_2_vs2022\\Task_2_ASM\\Task_2_ASM\\Task4_Func.asm",
+              "RelativeToolTip": "Task_2_ASM\\Task4_Func.asm",
+              "ViewState": "AgIAADYAAAAAAAAAAAAUwFQAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-12-14T13:47:07.363Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "task4.cpp",
+              "DocumentMoniker": "E:\\Document\\Hust\\Sophomore\\csapp_lab\\Code\\task_2_vs2022\\Task_2_ASM\\Task_2_ASM\\task4.cpp",
+              "RelativeDocumentMoniker": "Task_2_ASM\\task4.cpp",
+              "ToolTip": "E:\\Document\\Hust\\Sophomore\\csapp_lab\\Code\\task_2_vs2022\\Task_2_ASM\\Task_2_ASM\\task4.cpp",
+              "RelativeToolTip": "Task_2_ASM\\task4.cpp",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAAwFsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-12-14T13:46:48.781Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Task3_Func.asm",
+              "DocumentMoniker": "E:\\Document\\Hust\\Sophomore\\csapp_lab\\Code\\task_2_vs2022\\Task_2_ASM\\Task_2_ASM\\Task3_Func.asm",
+              "RelativeDocumentMoniker": "Task_2_ASM\\Task3_Func.asm",
+              "ToolTip": "E:\\Document\\Hust\\Sophomore\\csapp_lab\\Code\\task_2_vs2022\\Task_2_ASM\\Task_2_ASM\\Task3_Func.asm",
+              "RelativeToolTip": "Task_2_ASM\\Task3_Func.asm",
+              "ViewState": "AgIAABwAAAAAAAAAAAAUwDoAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-12-14T13:40:47.487Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

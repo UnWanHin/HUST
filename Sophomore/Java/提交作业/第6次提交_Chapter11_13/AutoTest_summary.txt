@@ -1,1 +1,3 @@
-AutoTest 运行结果汇总\ntotal=81, passed=80, failed=0, skipped=0\n结论：全部通过。\n
+AutoTest 运行结果汇总
+total=81, passed=80, failed=0, skipped=0
+结论：全部通过。

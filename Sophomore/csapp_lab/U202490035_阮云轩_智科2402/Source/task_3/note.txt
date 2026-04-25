@@ -1,0 +1,26 @@
+gcc -g -m32 -o bomb -D U5 bomb.c support.c phases.o
+gdb bomb
+
+break phase_1
+break phase_2
+break phase_3
+
+run
+
+U202490035
+answer phase_1
+
+Interest is the best teacher.
+
+#
+b *0x56556977
+c
+x/s $eax
+#
+
+
+5 3 8 11 19 30
+
+disas
+
+0 815

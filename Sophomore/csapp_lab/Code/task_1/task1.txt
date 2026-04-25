@@ -1,0 +1,17 @@
+g++ -g task1.cpp -o task1.exe
+gdb task1.exe
+b main
+run
+n
+
+阮雲軒 18 35 goodgoodstudydaydayup
+Kit 197 70.5 Smart
+Kingsley 3 21.5 Macao
+Ryan 14 66.6 Rich
+Kevin 20 2.33 Hust
+
+x/100xb &old_s
+n
+n
+
+x/64xb buf1
