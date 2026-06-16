@@ -1,0 +1,63 @@
+#include<queue>
+status SaveBiTree(BiTree T, const char FileName[])
+//将二叉树的结点数据写入到文件FileName中
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin 1 *********/
+    int s = 1,flag=1,lq;
+    std::queue<BiTree> q;
+    BiTree p;
+    FILE *fp = fopen(FileName, "w");
+    q.push(T);
+    while(flag==1){
+        flag=0;
+        lq=q.size();
+        for(int i=1;i<=lq;i++){
+            p = q.front();
+            q.pop();
+            if(p==NULL){
+                q.push(NULL);
+                q.push(NULL);
+                s++;
+                continue;
+            }    
+            fprintf(fp, "%d %d %s\n", s ,p->data.key,p->data.others); 
+            if(p->lchild!=NULL or p->rchild!=NULL) flag = 1;
+            q.push(p->lchild);
+            q.push(p->rchild);
+            s++;        
+        }
+    }
+    fprintf(fp, "%d %d %s\n", 0 ,0,NULL); 
+    fclose(fp);
+    return OK;
+
+    /********** End 1 **********/
+}
+status LoadBiTree(BiTree &T,  const char FileName[])
+//读入文件FileName的结点数据，创建二叉树
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin 2 *********/
+    FILE *fp = fopen(FileName, "r");
+    TElemType d[100];
+    int ans,i=0,kt=1;
+    BiTNode *p[100]={NULL};
+    while (1){
+        fscanf(fp, "%d%d%s",&kt,&d[i].key,d[i].others);   
+        if(kt==0) break;
+        p[kt]=(BiTNode *)malloc(sizeof(BiTNode));
+        p[kt]->data=d[i];
+        p[kt]->lchild=NULL;
+        p[kt]->rchild=NULL;
+        if (kt!=1){
+            if (kt%2==0) p[kt/2]->lchild=p[kt];  
+            else p[kt/2]->rchild=p[kt];            
+        }
+        i++;      
+    } 
+    T=p[1];
+    fclose(fp);
+    return OK;
+    /********** End 2 **********/
+}

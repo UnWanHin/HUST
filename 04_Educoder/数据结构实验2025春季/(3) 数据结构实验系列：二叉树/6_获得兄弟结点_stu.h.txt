@@ -1,0 +1,29 @@
+BiTNode* GetSibling(BiTree T,KeyType e)
+//实现获得兄弟结点
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    if (T == NULL) {
+        return NULL;
+    }
+
+    // 检查左孩子是否是目标节点
+    if (T->lchild != NULL && T->lchild->data.key == e) {
+        return T->rchild;
+    }
+
+    // 检查右孩子是否是目标节点
+    if (T->rchild != NULL && T->rchild->data.key == e) {
+        return T->lchild;
+    }
+
+    // 递归在左子树中查找
+    BiTNode* leftResult = GetSibling(T->lchild, e);
+    if (leftResult != NULL) {
+        return leftResult;
+    }
+
+    // 递归在右子树中查找
+    return GetSibling(T->rchild, e);
+    /********** End **********/
+}

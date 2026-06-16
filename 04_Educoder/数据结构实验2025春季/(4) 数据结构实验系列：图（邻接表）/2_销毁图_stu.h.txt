@@ -1,0 +1,20 @@
+status DestroyGraph(ALGraph &G)
+/*销毁无向图G,删除G的全部顶点和边*/
+{
+    for (int i = 0; i < G.vexnum; i++) 
+{ 
+ArcNode *p = G.vertices[i].firstarc; 
+while (p) 
+{ 
+ArcNode *q = p; 
+p = p->nextarc; 
+free(q); 
+} 
+G.vertices[i].firstarc = NULL; 
+} 
+G.vexnum = 0; 
+G.arcnum = 0; 
+return OK; 
+/********** End **********/ 
+
+}

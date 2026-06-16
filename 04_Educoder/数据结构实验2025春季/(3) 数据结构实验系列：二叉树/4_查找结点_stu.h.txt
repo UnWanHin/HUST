@@ -1,0 +1,13 @@
+BiTNode* LocateNode(BiTree T,KeyType e)
+//查找结点
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    if(T==NULL) return NULL;
+    if(T->data.key == e) return T;
+    BiTNode* k=LocateNode(T->lchild,e);
+    if(k == NULL) return LocateNode(T->rchild,e);
+    else return k;
+
+    /********** End **********/
+}

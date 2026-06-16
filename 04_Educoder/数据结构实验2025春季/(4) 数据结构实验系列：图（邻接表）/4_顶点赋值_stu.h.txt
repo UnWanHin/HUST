@@ -1,0 +1,26 @@
+int check(ALGraph G,int x,VertexType v){
+    for (int i = 0; i < G.vexnum; ++i) {
+        if(i == x) continue ;
+        if(v.key == G.vertices[i].data.key) return 0;
+    }
+    return 1;    
+}
+status PutVex(ALGraph &G,KeyType u,VertexType value)
+//根据u在图G中查找顶点，查找成功将该顶点值修改成value，返回OK；
+//如果查找失败或关键字不唯一，返回ERROR
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    for (int i = 0; i < G.vexnum; ++i) {
+        if(G.vertices[i].data.key == u){
+            if(check(G,i,value)== 1){
+                G.vertices[i].data=value;
+                return OK;
+            }
+            else return ERROR;
+        }
+    }
+    return ERROR;
+
+    /********** End **********/
+}

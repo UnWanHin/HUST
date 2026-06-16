@@ -1,0 +1,22 @@
+#include <map>
+std::map<int,int> flagdfs;
+void dfs(ALGraph G,int t,void (*visit)(VertexType)){
+    visit(G.vertices[t].data);
+    flagdfs[t]=1;
+    ArcNode *p = G.vertices[t].firstarc;
+    while(p!=NULL){
+        if(flagdfs[p->adjvex]==0) dfs(G,p->adjvex,visit);
+        p=p->nextarc;
+    }
+}
+status DFSTraverse(ALGraph &G,void (*visit)(VertexType))
+//对图G进行深度优先搜索遍历，依次对图中的每一个顶点使用函数visit访问一次，且仅访问一次
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    for(int i=0;i<G.vexnum;i++){
+        if(flagdfs[i]==0) dfs(G,i,visit);
+    }
+
+    /********** End **********/
+}

@@ -1,0 +1,25 @@
+int suanfa(int a[],int n, int arrsize)
+{
+/**********begin**********/
+if(n>arrsize)
+{
+    return 0;
+}
+long k=1, h=1;
+for(int i=1;i<=n;i++)
+{
+    k=k*i;
+    h*=2;
+    long temp=k*h;
+    if(temp<2147483647)
+    {
+        a[i-1]=temp;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+/**********end**********/
+}

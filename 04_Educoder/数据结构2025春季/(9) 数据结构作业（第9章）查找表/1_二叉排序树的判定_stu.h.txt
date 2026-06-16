@@ -1,0 +1,16 @@
+status JudgeBiTree(BiTree T)
+//判断二叉树T是否为二叉排序树
+{
+    // 请在这里补充代码，完成本关任务
+    /***t******* Begin *********/
+    if(T == NULL) return 1;
+    static int x = -1e9;
+    if(T->lchild != NULL) 
+        if(!JudgeBiTree(T->lchild)) return 0;
+    if(T->data.key < x) return 0;
+    x = T->data.key;
+    if(T->rchild != NULL) 
+        if(!JudgeBiTree(T->rchild)) return 0;
+    return 1;
+    /********** End **********/
+}

@@ -1,0 +1,27 @@
+int isPalindrome(char *str)
+//判断字符串str是否回文，是则返回1，否则返回0
+{
+/**********begin**********/
+    TWSTACK S;
+    QUEUE K;
+    inistack(S);
+    iniQueue(K);
+    int i = 0;
+    while(str[i] != '@'){
+        push(S,1,str[i]);
+        enQueue(K,str[i]);
+        i++;
+    }
+    while(S.top1 != 0 && K.length != 0){
+        char e1,e2;
+        pop(S,1,e1);
+        deQueue(K,e2);
+        if(e1 != e2) return 0;
+    }
+    return 1;
+
+
+
+/********** end **********/
+}
+

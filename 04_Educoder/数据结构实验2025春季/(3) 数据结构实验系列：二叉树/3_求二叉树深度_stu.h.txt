@@ -1,0 +1,23 @@
+#include<bits/stdc++.h>
+using namespace std;
+int ldeep=1,ldeepmax;
+int BiTreeDepth(BiTree T)
+//求二叉树T的深度
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    if(T==NULL) return 0;
+    if(T->lchild!=NULL){
+        ldeep++;
+        BiTreeDepth(T->lchild);
+        ldeep--;
+    }
+    if(T->rchild!=NULL){
+        ldeep++;
+        BiTreeDepth(T->rchild);
+        ldeep--;
+    }
+    ldeepmax=max(ldeepmax,ldeep);
+    return ldeepmax;
+    /********** End **********/
+}

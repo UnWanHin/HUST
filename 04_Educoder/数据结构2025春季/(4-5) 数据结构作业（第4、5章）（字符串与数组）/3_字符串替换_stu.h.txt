@@ -1,0 +1,40 @@
+void Replace(HString &S,HString T,HString V)
+//
+{
+/************** begin *****************/
+    for(int i = 0;i < S.length;i++){
+        if(S.ch[i] == T.ch[0]){
+            int flag = 0;
+            for(int j = 0;j < T.length;j++){
+                if(S.ch[i+j] != T.ch[j]){
+                    flag = 1;
+                    break;
+                }
+            }
+            if(!flag){
+                if(T.length >= V.length){
+                    for(int j = 0;j < V.length;j++)
+                        S.ch[i++] = V.ch[j];
+                    int m = i;
+                    S.length = S.length - T.length + V.length;
+                    for(;m < S.length;m++)
+                        S.ch[m] = S.ch[m + T.length - V.length];
+                }
+                else {
+                    S.length = S.length - T.length + V.length;
+                    char *c = (char *)realloc(S.ch,S.length * sizeof(char));
+                    S.ch = c;
+                    // free(c);
+                    for(int m = S.length - 1;m >= i + V.length;m--)
+                        S.ch[m] = S.ch[m + T.length - V.length];
+                    for(int j = 0;j < V.length;j++)
+                        S.ch[i++] = V.ch[j];
+                }
+                i--;
+            }
+        }
+    }
+
+
+/**************  end  *****************/
+}

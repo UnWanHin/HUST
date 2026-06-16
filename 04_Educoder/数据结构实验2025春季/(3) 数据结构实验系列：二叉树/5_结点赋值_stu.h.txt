@@ -1,0 +1,39 @@
+BiTNode* LocateNode(BiTree T,KeyType e)
+//查找结点
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    if(T==NULL) return NULL;
+    if(T->data.key == e) return T;
+    BiTNode* k=LocateNode(T->lchild,e);
+    if(k == NULL) return LocateNode(T->rchild,e);
+    else return k;
+
+    /********** End **********/
+}
+bool check_Assign(BiTree T,int k,BiTNode* now){
+    if(T==NULL) return true;
+    if(T!=now && T->data.key==k) return false;
+    return check_Assign(T->lchild,k,now)&&check_Assign(T->rchild,k,now);
+}
+status Assign(BiTree &T,KeyType e,TElemType value)
+//实现结点赋值。此题允许通过增加其它函数辅助实现本关任务
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    BiTNode* p= LocateNode(T,e);
+    if(p==NULL) return ERROR;
+    if(value.key == e ){
+        p->data = value;
+        return OK;
+    }
+    else {
+        if(check_Assign(T,value.key,p)){
+            p->data = value;
+            return OK;            
+        }
+        else return ERROR;
+    }
+
+    /********** End **********/
+}

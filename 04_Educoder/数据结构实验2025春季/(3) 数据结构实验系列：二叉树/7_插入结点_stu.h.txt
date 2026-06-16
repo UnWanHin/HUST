@@ -1,0 +1,44 @@
+BiTNode* LocateNode(BiTree T,KeyType e)
+//查找结点
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    if(T==NULL) return NULL;
+    if(T->data.key == e) return T;
+    BiTNode* k=LocateNode(T->lchild,e);
+    if(k == NULL) return LocateNode(T->rchild,e);
+    else return k;
+
+    /********** End **********/
+}
+bool check_Insert(BiTree T,int k){
+    if(T==NULL) return true;
+    if(T->data.key==k) return false;
+    return check_Insert(T->lchild,k)&&check_Insert(T->rchild,k);
+}
+status InsertNode(BiTree &T,KeyType e,int LR,TElemType c)
+//插入结点。此题允许通过增加其它函数辅助实现本关任务
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    BiTNode* temp=(BiTree)malloc(sizeof(BiTNode));
+    temp->data = c;
+    if(LR == -1){
+        temp->rchild = T;
+        T = temp;
+        return OK;
+    }
+    BiTNode* p=LocateNode(T,e);
+    if(p==NULL) return ERROR; 
+    if(!check_Insert(T,c.key)) return ERROR;
+    if(LR==0){
+        temp->rchild=p->lchild;
+        p->lchild=temp;
+    }
+    if(LR==1){
+        temp->rchild=p->rchild;
+        p->rchild=temp;
+    }    
+    return OK;
+    /********** End **********/
+}

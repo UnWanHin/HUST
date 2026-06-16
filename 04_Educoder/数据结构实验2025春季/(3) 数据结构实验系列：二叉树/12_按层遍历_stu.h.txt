@@ -1,0 +1,19 @@
+#include<queue>
+status LevelOrderTraverse(BiTree T,void (*visit)(BiTree))
+//按层遍历二叉树T
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    std::queue<BiTree> q;
+    BiTree p;
+    q.push(T);
+    while(!q.empty()){
+        p = q.front();
+        q.pop();
+        printf(" %d,%s",p->data.key,p->data.others);
+        if(p->lchild!=NULL) q.push(p->lchild);
+        if(p->rchild!=NULL) q.push(p->rchild);
+    } 
+
+    /********** End **********/
+}

@@ -1,0 +1,21 @@
+void  TriSqList(SqList  &A,SqList  B,SqList  C)
+{
+/**********Begin**********/
+ int i = 0, j = 0, k = 0, newLength = 0;
+    while (i < A.length) {
+        while (j < B.length && B.elem[j] < A.elem[i]) {
+            j++;
+        }
+        while (k < C.length && C.elem[k] < A.elem[i]) {
+            k++;
+        }
+        if (!(j < B.length && k < C.length && B.elem[j] == A.elem[i] && C.elem[k] == A.elem[i])) {
+            A.elem[newLength] = A.elem[i];
+            newLength++;
+        }
+        i++;
+    }
+    A.length = newLength;
+
+ /**********End**********/
+}

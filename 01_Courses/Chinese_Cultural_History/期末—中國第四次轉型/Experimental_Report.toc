@@ -1,0 +1,7 @@
+\contentsline {section}{\numberline {1}前言}{1}{section.1}%
+\contentsline {section}{\numberline {2}第四次文化转折背景}{2}{section.2}%
+\contentsline {subsection}{\numberline {2.1}社会内部变革}{2}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}外界冲击和新思想碰撞}{2}{subsection.2.2}%
+\contentsline {section}{\numberline {3}转折带来的发展机遇}{3}{section.3}%
+\contentsline {section}{\numberline {4}第四次转折工商业发展的情况}{4}{section.4}%
+\contentsline {section}{\numberline {5}小结}{5}{section.5}%

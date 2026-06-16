@@ -1,0 +1,39 @@
+void TriLinkList(LinkList  A,LinkList  B,LinkList  C)
+{
+/**********Begin**********/
+ NODE *prev = A;
+    NODE *curr = A->next;
+    NODE *temp;
+    NODE *pB = B->next;
+    NODE *pC = C->next;
+
+    while (curr != NULL) {
+        pB = B->next;
+        pC = C->next;
+        int foundInB = 0;
+        int foundInC = 0;
+        while (pB != NULL && pB->data < curr->data) {
+            pB = pB->next;
+        }
+        if (pB != NULL && pB->data == curr->data) {
+            foundInB = 1;
+        }
+        while (pC != NULL && pC->data < curr->data) {
+            pC = pC->next;
+        }
+        if (pC != NULL && pC->data == curr->data) {
+            foundInC = 1;
+        }
+        if (foundInB && foundInC) {
+            temp = curr;
+            prev->next = curr->next;
+            curr = curr->next;
+            free(temp);
+        } else {
+            prev = curr;
+            curr = curr->next;
+        }
+    }
+
+ /**********End**********/
+}

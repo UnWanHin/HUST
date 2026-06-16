@@ -1,0 +1,61 @@
+int LocateVex(ALGraph G,KeyType u)
+//根据u在图G中查找顶点，查找成功返回位序，否则返回-1；
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    for (int i = 0; i < G.vexnum; ++i) {
+        if(G.vertices[i].data.key == u) return i;
+    }
+    return -1;
+
+    /********** End **********/
+}
+status DeleteArc(ALGraph &G,KeyType v,KeyType w)
+//在图G中删除弧<v,w>，成功返回OK,否则返回ERROR
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    int v_pos = LocateVex(G, v);
+    int w_pos = LocateVex(G, w);
+    if (v_pos == -1 || w_pos == -1) return ERROR;
+
+    ArcNode *prev = NULL;
+    ArcNode *curr = G.vertices[v_pos].firstarc;
+    bool found = false;
+    while (curr != NULL) {
+        if (curr->adjvex == w_pos) {
+            if (prev == NULL) {
+                G.vertices[v_pos].firstarc = curr->nextarc;
+            } else {
+                prev->nextarc = curr->nextarc;
+            }
+            free(curr);
+            found = true;
+            break;
+        }
+        prev = curr;
+        curr = curr->nextarc;
+    }
+    if (!found) return ERROR; 
+
+    prev = NULL;
+    curr = G.vertices[w_pos].firstarc;
+    while (curr != NULL) {
+        if (curr->adjvex == v_pos) {
+            if (prev == NULL) {
+                G.vertices[w_pos].firstarc = curr->nextarc;
+            } else {
+                prev->nextarc = curr->nextarc;
+            }
+            free(curr);
+            break;
+        }
+        prev = curr;
+        curr = curr->nextarc;
+    }
+
+    G.arcnum--; 
+    return OK;
+
+    /********** End **********/
+}

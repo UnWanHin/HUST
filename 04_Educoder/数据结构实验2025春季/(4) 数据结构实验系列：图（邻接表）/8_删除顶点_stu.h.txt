@@ -1,0 +1,68 @@
+int LocateVex(ALGraph G,KeyType u)
+//根据u在图G中查找顶点，查找成功返回位序，否则返回-1；
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    for (int i = 0; i < G.vexnum; ++i) {
+        if(G.vertices[i].data.key == u) return i;
+    }
+    return -1;
+
+    /********** End **********/
+}
+status DeleteVex(ALGraph &G,KeyType v)
+//在图G中删除关键字v对应的顶点以及相关的弧，成功返回OK,否则返回ERROR
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    if(G.vexnum == 1) return ERROR;
+    int pos_v = LocateVex(G, v);
+    if (pos_v == -1) return ERROR;
+
+    ArcNode *current = G.vertices[pos_v].firstarc;
+    while (current != NULL) {
+        int w_pos = current->adjvex;
+        
+        ArcNode *w_prev = NULL;
+        ArcNode *w_p = G.vertices[w_pos].firstarc;
+        while (w_p != NULL) {
+            if (w_p->adjvex == pos_v) {
+                if (w_prev == NULL) {
+                    G.vertices[w_pos].firstarc = w_p->nextarc;
+                } else {
+                    w_prev->nextarc = w_p->nextarc;
+                }
+                ArcNode *temp = w_p;
+                w_p = w_p->nextarc;
+                free(temp);
+                G.arcnum--; 
+                break;
+            } else {
+                w_prev = w_p;
+                w_p = w_p->nextarc;
+            }
+        }
+
+        ArcNode *temp = current;
+        current = current->nextarc;
+        free(temp);
+    }
+    G.vertices[pos_v].firstarc = NULL;
+
+    for (int i = pos_v; i < G.vexnum - 1; i++) {
+        G.vertices[i] = G.vertices[i + 1];
+    }
+    G.vexnum--;
+    for (int i = 0; i < G.vexnum; i++) {
+        ArcNode *p = G.vertices[i].firstarc;
+        while (p != NULL) {
+            if (p->adjvex > pos_v) {
+                p->adjvex--; 
+            }
+            p = p->nextarc;
+        }
+    }
+
+    return OK;
+    /********** End **********/
+}

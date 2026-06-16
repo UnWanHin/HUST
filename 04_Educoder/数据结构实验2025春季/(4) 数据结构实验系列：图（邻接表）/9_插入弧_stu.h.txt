@@ -1,0 +1,38 @@
+int LocateVex(ALGraph G,KeyType u)
+//根据u在图G中查找顶点，查找成功返回位序，否则返回-1；
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    for (int i = 0; i < G.vexnum; ++i) {
+        if(G.vertices[i].data.key == u) return i;
+    }
+    return -1;
+
+    /********** End **********/
+}
+status InsertArc(ALGraph &G,KeyType v,KeyType w)
+//在图G中增加弧<v,w>，成功返回OK,否则返回ERROR
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    int vt = LocateVex(G,v),wt = LocateVex(G,w);
+    if(vt == -1 or wt == -1) return ERROR;
+    ArcNode *p = G.vertices[wt].firstarc;
+    while(p!=NULL){
+        if(p->adjvex == vt) return ERROR;
+        p=p->nextarc;
+    }
+    ArcNode *temp1 = (ArcNode *)malloc(sizeof(ArcNode));
+    temp1->nextarc = G.vertices[vt].firstarc;
+    temp1->adjvex = wt;
+    G.vertices[vt].firstarc = temp1;
+    
+    ArcNode *temp2 = (ArcNode *)malloc(sizeof(ArcNode));
+    temp2->nextarc = G.vertices[wt].firstarc;
+    temp2->adjvex = vt;
+    G.vertices[wt].firstarc = temp2;    
+
+    G.arcnum++;
+    return OK;
+    /********** End **********/
+}

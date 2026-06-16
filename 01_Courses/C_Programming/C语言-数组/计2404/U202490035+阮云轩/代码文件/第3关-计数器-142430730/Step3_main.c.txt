@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <ctype.h>
+#include<string.h>
+
+void countCharacters(const char *input) {
+    int numCount[10] = {0};
+    int charCount[26] = {0};
+    int othersCount = 0;  
+
+
+    for (int i = 0; input[i]!= '\0'; i++) {
+        if (isdigit(input[i])) {
+            numCount[input[i] - '0']++;
+        } else if (isalpha(input[i])) {
+            charCount[toupper(input[i]) - 'A']++;
+        } else {
+            othersCount++;
+        }
+    }
+
+    for (int i = 0; i < 10; i++) {
+        if (numCount[i] > 0) {
+            printf("%d:%d\n", i, numCount[i]);
+        }
+    }
+
+    for (int i = 0; i < 26; i++) {
+        if (charCount[i] > 0) {
+            printf("%c:%d\n", (char)('A' + i), charCount[i]);
+        }
+    }
+
+    if (othersCount > 0) {
+        printf("others:%d\n", othersCount);
+    }
+}
+
+int main() {
+    char input[10000];
+
+    fgets(input, sizeof(input), stdin);
+
+    if (input[strlen(input) - 1] == '\n') {
+        input[strlen(input) - 1] = '\0';
+    }
+
+    countCharacters(input);
+
+    return 0;
+}

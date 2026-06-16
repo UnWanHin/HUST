@@ -1,0 +1,31 @@
+TSMatrix ADD(TSMatrix A,TSMatrix B)
+//返回矩阵A、B相加的结果
+{
+/************** begin *****************/
+    TSMatrix C;
+    C.mu =  (A.mu > B.mu)?A.mu:B.mu;
+    C.nu = (A.nu>B.nu)?A.nu:B.nu;
+    C.tu = 0;
+    int sum[105][105];
+    for(int i = 1;i <= C.mu;i++)
+        for(int j = 1;j <= C.nu;j++)
+            sum[i][j] = 0;
+    for(int i = 1;i <= A.tu;i++){
+        sum[A.data[i].i][A.data[i].j] = A.data[i].e;
+    }
+    for(int i = 1;i <= B.tu;i++){
+        sum[B.data[i].i][B.data[i].j] += B.data[i].e;
+    }
+    for(int i = 1;i<=C.mu;i++)
+        for(int j = 1;j <= C.nu;j++){
+            if(sum[i][j]){
+                C.data[++C.tu].i = i;
+                C.data[C.tu].j = j;
+                C.data[C.tu].e = sum[i][j];
+            }
+        }
+    return C;
+
+
+/**************  end  *****************/
+}

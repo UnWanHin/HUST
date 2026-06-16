@@ -1,0 +1,73 @@
+#include<map>
+std::map<int,int> flag;
+int LocateVex(ALGraph &G, KeyType key) {
+    for (int i = 0; i < G.vexnum; ++i) {
+        if (G.vertices[i].data.key == key)
+            return i;
+    }
+    return -1;
+}
+status CreateCraph(ALGraph &G,VertexType V[],KeyType VR[][2])
+/*根据V和VR构造图T并返回OK，如果V和VR不正确，返回ERROR
+如果有相同的关键字，返回ERROR。此题允许通过增加其它函数辅助实现本关任务*/
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    G.vexnum = 0;
+    while (G.vexnum <= MAX_VERTEX_NUM && V[G.vexnum].key != -1) { // 假设以-1结束
+        G.vexnum++;
+    }
+    if (G.vexnum > MAX_VERTEX_NUM or G.vexnum==0) return ERROR;
+
+    // 检查顶点关键字唯一性
+    for (int i = 0; i < G.vexnum; ++i) {
+        for (int j = i + 1; j < G.vexnum; ++j) {
+            if (V[i].key == V[j].key)
+                return ERROR;
+        }
+    }
+
+    // 初始化图的顶点
+    for (int i = 0; i < G.vexnum; ++i) {
+        G.vertices[i].data = V[i];
+        G.vertices[i].firstarc = NULL;
+    }
+
+    // 计算边数
+    G.arcnum = 0;
+    while (VR[G.arcnum][0] != -1 && VR[G.arcnum][1] != -1) { // 假设以-1结束
+        G.arcnum++;
+    }
+
+    // 处理每条边
+    for (int k = 0; k < G.arcnum; ++k) {
+        KeyType u = VR[k][0];
+        KeyType v = VR[k][1];
+
+        int i = LocateVex(G, u);
+        int j = LocateVex(G, v);
+        if (i == -1 || j == -1)
+            return ERROR;
+
+        // 将j添加到i的邻接表中
+        ArcNode *arc_i = (ArcNode *)malloc(sizeof(ArcNode));
+        if (!arc_i) return OVERFLOW;
+        arc_i->adjvex = j;
+        arc_i->nextarc = G.vertices[i].firstarc;
+        G.vertices[i].firstarc = arc_i;
+
+        // 将i添加到j的邻接表中
+        ArcNode *arc_j = (ArcNode *)malloc(sizeof(ArcNode));
+        if (!arc_j) {
+            free(arc_i);
+            return OVERFLOW;
+        }
+        arc_j->adjvex = i;
+        arc_j->nextarc = G.vertices[j].firstarc;
+        G.vertices[j].firstarc = arc_j;
+    }
+
+    G.kind = UDG;
+    return OK;
+    /********** End **********/
+}

@@ -1,0 +1,10 @@
+status PostOrderTraverse(BiTree T,void (*visit)(BiTree))
+//后序遍历二叉树T
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    if(T->lchild!=NULL) PostOrderTraverse(T->lchild,visit); 
+    if(T->rchild!=NULL) PostOrderTraverse(T->rchild,visit);
+    printf(" %d,%s",T->data.key,T->data.others);
+    /********** End **********/
+}

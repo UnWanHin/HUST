@@ -1,0 +1,126 @@
+\documentclass[supercite]{Experimental_Report}
+\title{89}
+\author{阮云轩}
+%\coauthor{张三、李四}
+\school{计算机科学与技术学院}
+\classnum{CS2404}
+\stunum{U202490035}
+%\costunum{U202115631、U202115631}
+\instructor{李琼} % 该系列实验报告模板由华科大计院教师陈加忠制作
+\date{2025年04月06日}
+
+\usepackage{algorithm, multirow}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{framed}
+\usepackage{mathtools}
+\usepackage{subcaption}
+\usepackage{xltxtra} %提供了针对XeTeX的改进并且加入了XeTeX的LOGO, 自动调用xunicode宏包(提供Unicode字符宏)
+\usepackage{bm}
+\usepackage{tikz}
+\usepackage{tikzscale}
+\usepackage{pgfplots}
+%\usepackage{enumerate}
+
+\pgfplotsset{compat=1.16}
+
+\newcommand{\cfig}[3]{
+	\begin{figure}[htb]
+		\centering
+		\includegraphics[width=#2\textwidth]{images/#1.tikz}
+		\caption{#3}
+		\label{fig:#1}
+	\end{figure}
+}
+
+\newcommand{\sfig}[3]{
+	\begin{subfigure}[b]{#2\textwidth}
+		\includegraphics[width=\textwidth]{images/#1.tikz}
+		\caption{#3}
+		\label{fig:#1}
+	\end{subfigure}
+}
+
+\newcommand{\xfig}[3]{
+	\begin{figure}[htb]
+		\centering
+		#3
+		\caption{#2}
+		\label{fig:#1}
+	\end{figure}
+}
+
+\newcommand{\rfig}[1]{\autoref{fig:#1}}
+\newcommand{\ralg}[1]{\autoref{alg:#1}}
+\newcommand{\rthm}[1]{\autoref{thm:#1}}
+\newcommand{\rlem}[1]{\autoref{lem:#1}}
+\newcommand{\reqn}[1]{\autoref{eqn:#1}}
+\newcommand{\rtbl}[1]{\autoref{tbl:#1}}
+
+\algnewcommand\Null{\textsc{null }}
+\algnewcommand\algorithmicinput{\textbf{Input:}}
+\algnewcommand\Input{\item[\algorithmicinput]}
+\algnewcommand\algorithmicoutput{\textbf{Output:}}
+\algnewcommand\Output{\item[\algorithmicoutput]}
+\algnewcommand\algorithmicbreak{\textbf{break}}
+\algnewcommand\Break{\algorithmicbreak}
+\algnewcommand\algorithmiccontinue{\textbf{continue}}
+\algnewcommand\Continue{\algorithmiccontinue}
+\algnewcommand{\LeftCom}[1]{\State $\triangleright$ #1}
+
+\newtheorem{thm}{定理}[section]
+\newtheorem{lem}{引理}[section]
+
+\colorlet{shadecolor}{black!15}
+
+\theoremstyle{definition}
+\newtheorem{alg}{算法}[section]
+
+\def\thmautorefname~#1\null{定理~#1~\null}
+\def\lemautorefname~#1\null{引理~#1~\null}
+\def\algautorefname~#1\null{算法~#1~\null}
+
+\begin{document}
+	
+	\maketitle
+	
+	\clearpage
+	
+	\pagenumbering{Roman}
+	
+	\tableofcontents[level=2]
+	
+	\clearpage
+	
+	\pagenumbering{arabic}
+	
+	\section{前言}
+	我认为第四次的文化转折点可以说是对中国的全面加速，在各个不同领域都有带来各种型式和意义上的加速，從文化乃至科學技術，而关于第四次中国文化转型的主题我打算以当中的工商业发展情况作主要说明。
+	
+	
+	\section{第四次文化转折背景}
+	转折的因素大概可以分为以下几个要点，社会内部变革、外界冲击和新思想碰撞。
+	\subsection{社会内部变革}
+	变革的方向可分为两大方面。\\
+	一、封建制度衰落：\\明清时期，封建制度逐渐走向衰落，政治上专制主义中央集权空前加强，阻碍了社会的进步和发展。经济上，虽然商品经济有所发展，资本主义萌芽产生，但受到封建制度的束缚，发展缓慢。这种社会状况促使一些有识之士开始对传统的封建制度和文化进行反思，为文化的转折提供了内部动力。\\
+	二、西学东渐开启：\\17 世纪以来，西方传教士来华，带来了西方的科学技术、文化知识和思想观念，如利玛窦等传教士带来了天文、地理、数学等方面的知识。这引发了中国一部分知识分子对西方文化的兴趣和关注，开始了中西文化的初步交流与碰撞，为中国文化的转折注入了新的元素。\\
+	
+	\subsection{外界冲击和新思想碰撞}
+	而对于这方面主要是有鸦片战争强迫开放和一众新思潮所带来的影响\\
+	鸦片战争后被迫开放：\\19 世纪中叶，鸦片战争爆发，中国国门被西方列强的坚船利炮打开，中国由一个独立自主的封建国家逐渐沦为半殖民地半封建社会。西方列强的侵略不仅带来了军事和经济上的压迫，也带来了西方的文化和价值观。面对西方文化的强势冲击，中国传统文化不得不做出回应和变革。\\
+	新思想的传播与发展：\\从林则徐、魏源 “师夷长技以制夷”，到洋务派的 “中体西用”，再到维新派的变法维新思想，以及后来的民主共和思想、马克思主义思想等，各种新思想被不断传播和发展。这些新思想推动了中国文化从传统向现代的转变。
+	
+	\section{转折带来的发展机遇}
+	这次的转折可以说是加速了中国文化向现代化的进程，这次的转折为国家和人民带来了思想上的强烈冲击，使人们开始摆脱旧有的思维定式和价值观念，接受西方的民主、自由、平等思想，为思想解放运动奠定了基础。同时，也鼓励人们勇于探索新的知识、新的技术和新的发展模式，为中国的现代化发展提供了思想动力和创新活力。\\此外，从思想政治上，带来的新的社会形式和政策方针，可以说是推动了政治民主化，国家治理现代化。另外，也为国家带来的农工商三产业的体系发展。简之，这次的转折绝对是推动中国发展的一大利器。
+	
+	\section{第四次转折工商业发展的情况}
+	在经营理念上，此前传统商业深受儒家 “义利观” 熏陶，秉持 “重义轻利” 原则，经营倚重人情与信誉，风格相对保守。而转折后，西方商业文化涌入，市场导向与利润最大化观念深入人心，商业运营更注重市场调研、成本控制和营销策略创新，竞争意识显着增强。组织形式上，以往商业多为家族式、合伙式，规模小、组织松散、管理传统。此后，公司制、股份制等近代商业组织兴起，制度更规范，资源整合能力提升，运营效率和抗风险能力大幅提高。市场范围方面，转折前，市场局限于国内区域，受交通、信息制约，各地相对隔绝，对外贸易规模有限；转折后，交通通信发展推动国内市场整合，同时中国融入世界市场，商品流通范围极大拓展，贸易规模快速增长 。\\
+	生产方式上，此前以传统手工业为主，生产工具简陋，技术传承依赖师徒经验，效率低、质量不稳定。转折后，引入西方机器设备与工厂制度，实现规模化、标准化生产，生产效率与产品质量飞跃。产业结构层面，此前工业以传统手工业为主，仅满足国内基本生活需求，现代工业体系缺失。转折后，从轻工业到重工业逐步发展，纺织、面粉等轻工业快速崛起，钢铁、机械、化工等重工业开始萌芽，近代工业体系渐成。技术与人才方面，此前技术创新迟缓，依赖经验积累，缺乏专业人才培养体系；转折后，积极引进西方先进技术，国内新式学堂、技工学校相继建立，培养出大量掌握现代工业技术的专业人才，为工业技术进步与创新提供动力。
+	
+	\section{小结}
+	中国文化第四次转折下的工商业变革，是传统向现代转型的关键缩影。商业领域从 “重义轻利” 的传统模式，转变为以市场为导向、追求效率与创新的现代体系；工业生产则突破手工经验限制，借助机器与科学管理实现规模化发展。这场变革不仅重塑了经济结构，更推动了社会阶层流动与思想观念革新，使中国在被迫开放中逐步探索出适合自身的现代化路径，为中华文明的持续发展注入新动力。
+	
+	
+	
+\end{document}

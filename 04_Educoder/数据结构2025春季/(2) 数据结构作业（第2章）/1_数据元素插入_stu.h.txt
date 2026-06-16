@@ -1,0 +1,23 @@
+int insert(SqList &L, ElemType x) {
+
+    if (L.length >= L.listsize) {
+        ElemType *newElem = (ElemType *)realloc(L.elem, (L.listsize + LISTINCREMENT) * sizeof(ElemType));
+        if (newElem == NULL) {
+            return 0;
+        }
+        L.elem = newElem;
+        L.listsize += LISTINCREMENT;
+    }
+    int i;
+    for (i = 0; i < L.length; i++) {
+        if (L.elem[i] > x) {
+            break;
+        }
+    }
+    for (int j = L.length - 1; j >= i; j--) {
+        L.elem[j + 1] = L.elem[j];
+    }
+    L.elem[i] = x;
+    L.length++;
+    return 1;
+}

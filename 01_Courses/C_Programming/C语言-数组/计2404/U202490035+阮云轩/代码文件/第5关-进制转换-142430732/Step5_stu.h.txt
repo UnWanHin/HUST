@@ -1,0 +1,40 @@
+#include<stdio.h>
+#include<string.h>
+#include<ctype.h>
+
+void conversion(char str[]){
+	int len = strlen(str);
+    int result = 0;
+    int base = 1;
+
+    for (int i =0 ; i <= len - 1; i++) 
+	{
+        
+		//base *= 16;
+		if (isdigit(str[i])) {
+			
+            result=result*16;
+			result += (str[i] - '0') * base;
+        } 
+		else if (isalpha(str[i])) 
+		{
+			//str[i]=toupper(str[i]);
+        	if((str[i]>='A'&&str[i]<='F')||(str[i]>='a'&&str[i]<='f'))
+			{
+				result=result*16;
+				result += (toupper(str[i]) - 'A' + 10) * base;	
+				//printf("%d\n",result);
+			}
+			else
+			{
+            	break;
+        	}
+        }
+        
+
+        
+    }
+
+    printf("%d\n", result);
+			
+}

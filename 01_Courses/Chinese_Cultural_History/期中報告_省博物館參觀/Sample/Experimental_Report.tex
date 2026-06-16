@@ -1,0 +1,162 @@
+\documentclass[supercite]{Experimental_Report}
+\title{89}
+\author{阮云轩}
+%\coauthor{张三、李四}
+\school{计算机科学与技术学院}
+\classnum{CS2404}
+\stunum{U202490035}
+%\costunum{U202115631、U202115631}
+\instructor{李琼} % 该系列实验报告模板由华科大计院教师陈加忠制作
+\date{2025年04月06日}
+
+\usepackage{algorithm, multirow}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{framed}
+\usepackage{mathtools}
+\usepackage{subcaption}
+\usepackage{xltxtra} %提供了针对XeTeX的改进并且加入了XeTeX的LOGO, 自动调用xunicode宏包(提供Unicode字符宏)
+\usepackage{bm}
+\usepackage{tikz}
+\usepackage{tikzscale}
+\usepackage{pgfplots}
+%\usepackage{enumerate}
+
+\pgfplotsset{compat=1.16}
+
+\newcommand{\cfig}[3]{
+	\begin{figure}[htb]
+		\centering
+		\includegraphics[width=#2\textwidth]{images/#1.tikz}
+		\caption{#3}
+		\label{fig:#1}
+	\end{figure}
+}
+
+\newcommand{\sfig}[3]{
+	\begin{subfigure}[b]{#2\textwidth}
+		\includegraphics[width=\textwidth]{images/#1.tikz}
+		\caption{#3}
+		\label{fig:#1}
+	\end{subfigure}
+}
+
+\newcommand{\xfig}[3]{
+	\begin{figure}[htb]
+		\centering
+		#3
+		\caption{#2}
+		\label{fig:#1}
+	\end{figure}
+}
+
+\newcommand{\rfig}[1]{\autoref{fig:#1}}
+\newcommand{\ralg}[1]{\autoref{alg:#1}}
+\newcommand{\rthm}[1]{\autoref{thm:#1}}
+\newcommand{\rlem}[1]{\autoref{lem:#1}}
+\newcommand{\reqn}[1]{\autoref{eqn:#1}}
+\newcommand{\rtbl}[1]{\autoref{tbl:#1}}
+
+\algnewcommand\Null{\textsc{null }}
+\algnewcommand\algorithmicinput{\textbf{Input:}}
+\algnewcommand\Input{\item[\algorithmicinput]}
+\algnewcommand\algorithmicoutput{\textbf{Output:}}
+\algnewcommand\Output{\item[\algorithmicoutput]}
+\algnewcommand\algorithmicbreak{\textbf{break}}
+\algnewcommand\Break{\algorithmicbreak}
+\algnewcommand\algorithmiccontinue{\textbf{continue}}
+\algnewcommand\Continue{\algorithmiccontinue}
+\algnewcommand{\LeftCom}[1]{\State $\triangleright$ #1}
+
+\newtheorem{thm}{定理}[section]
+\newtheorem{lem}{引理}[section]
+
+\colorlet{shadecolor}{black!15}
+
+\theoremstyle{definition}
+\newtheorem{alg}{算法}[section]
+
+\def\thmautorefname~#1\null{定理~#1~\null}
+\def\lemautorefname~#1\null{引理~#1~\null}
+\def\algautorefname~#1\null{算法~#1~\null}
+
+\begin{document}
+	
+	\maketitle
+	
+	\clearpage
+	
+	\pagenumbering{Roman}
+	
+	\tableofcontents[level=2]
+	
+	\clearpage
+	
+	\pagenumbering{arabic}
+	
+	\section{前言}
+	其實在我剛到湖北來華科上學時便和家里人一起去了省博物館參觀了，這次自己帶着目的又去一次難免唏噓，自己一個來到陌生城市還真是挑戰啊。寫個比較開放客觀的報告我也就不注重這麼多了寫得性情一點，坦白說我其實對文物沒有太大了解，也沒太大興趣，看到喜歡的就喜歡這樣不會深究太多，至於賞析一件文物是看重其制作背景歷史淵源還是藝術結構這個問題見仁見智就好了。\\所謂「日暮酒醒人已远，满天风雨下西楼」，我不知道，彷彿一切猶如昨天。回過神時，竟己完成了中學的課程。興好友們的離席是多麼的深刻，對自己些許迷茫，只希望在日後回看這段日子時能不感後悔\\故此，我擇了一酒器作為本次期中報告的介紹對象。畢竟「酒」可以寄托太多東西了，承載「酒」的酒器是否又能承載其重。
+
+
+\section{曾仲斿父壶(\ref{fig2-2}見下圖)}
+工藝時期：西周晚期\\
+出土時期：1966年7月\\
+發堀地點：湖北京山宋河坪坝苏家垅出土\\
+通高：66cm\\
+寛：23.8cm\\
+	*另外補充一下這個官網的出土時間好像打錯了?\ref{fig2-4}見下圖
+	\begin{figure}[htb]
+		\begin{center}
+			\includegraphics[scale=0.8]{images/2-4.jpg}
+			\caption{曾仲斿父壶}
+			\label{fig2-4}
+		\end{center}
+	\end{figure}
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.10]{images/2-2.jpg}
+		\caption{曾仲斿父壶}
+		\label{fig2-2}
+	\end{center}
+\end{figure}
+
+\subsection{藏品簡述}
+曾仲斿父壶为古代盛酒器或盛水器，其造型美观，文饰华丽，是技艺极高的艺术珍品，在国际上都具有一定的影响，被誉为青铜器“十大国宝”之一。\ref{fig2-3}	\\
+曾仲斿父壶在1966年出土于湖北省京山市苏家垅，通高66厘米，宽23.8厘米。此壶为方形，造型庄重雄伟。盖顶为藀瓣状，腹部有两个兽形耳，耳衔环，有流畅的纹饰，器盖内与壶口内均铸「曾仲斿父」字样的铭文。同一墓葬同时出土有“曾侯仲子斿壶”铭文鼎，可知墓主人是一位曾侯。青铜壶是商周礼器的主要器物之一，这件曾仲斿父壶是研究古代曾国的重要器物，也是著名两周青铜器。
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.28]{images/2-3.jpg}
+		\caption{曾仲斿父壶}
+		\label{fig2-3}
+	\end{center}
+\end{figure}
+\subsection{外觀\ref{fig2-6}}
+壶颈长，壶肩有两个伏兽衔环，体型扁方。有盖，盖上有高耸的莲瓣形装饰。颈腹饰环带纹，壶觞有曾游父自作器的铭文。
+原器通高66厘米，上口长23.1厘米。壶盖上饰有精美的莲花瓣，为春秋青铜壶典型的造型。盖内壶内口内壁各有铭文大意为曾侯的次子父用好铜铸造了此壶\\
+另外，这件铜壶出土时是一对，另一件现藏于國家博物館。而與它同时出土的还有九鼎七簋，说明墓主级别很高，也说明东周时期王室衰微、“礼崩乐坏”、地方诸侯僭用天子之礼而出现的乱象。
+	\begin{figure}[htb]
+	\begin{center}
+		\includegraphics[scale=0.15]{images/2-6.jpg}
+		\caption{外觀}
+		\label{fig2-6}
+	\end{center}
+\end{figure}
+
+
+\section{青銅文化\ref{fig2-5}}
+	\begin{figure}[htb]
+		\begin{center}
+			\includegraphics[scale=0.70]{images/2-5.jpg}
+			\caption{青銅文化}
+			\label{fig2-5}
+		\end{center}
+	\end{figure}
+	
+	\subsection{青銅時期的發展}
+	青銅時期是人類社會發展繼石器時代後的一個代表時期，在此時期人類學會金属冶炼，利用青銅制作武器、工具及奢侈品。更高效的武器工具起了加快社會發展和高生產力的作用，而精良的加工奢侈品使當時的青銅藏器具有高地位的象徵，更具體化了社會階級制度和權力代表及審美要求。而側面也反映了社會分工的建立，畢竟當時要加工一塊青銅需要繁多的步驟，需要人們分工合作才能制得一件優秀的青銅器。\\同時我們亦能留意到不少古代青銅器上刻上了神秘的宗教符號金紋，這意味着宗教信仰也發展起來，人們開始用青銅器作祭祀用具。
+	\\簡之。我認為青銅時期或青銅文化反映了人類社會的發展情況，無論是物理技術還是精神政治上都有十分重大的意義及影響。
+	
+	
+
+\end{document}

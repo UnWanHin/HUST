@@ -1,0 +1,27 @@
+void  adjust(DuLinkList  L)
+{
+/**********Begin**********/
+    DuLinkList p,q,t;
+    p = L->next;
+    q = p->next;
+    while(p->next != L && q->next != L){
+        t = p->prior;
+
+        if(p->prior != L) p->prior = p->prior->prior;
+        p->next = p->next->next;
+        p = p->next;
+        q->prior = p->next;
+        if(q->prior->prior != L) q->next = t;
+        else q->next = L;
+        q = q->prior;
+    }
+    if(p->next == L){
+        p->next = p->prior;
+        p->prior = p->prior->prior;
+    }
+    else {
+        q->prior = p;
+        q->next = p->prior;
+    }
+ /**********End**********/
+}

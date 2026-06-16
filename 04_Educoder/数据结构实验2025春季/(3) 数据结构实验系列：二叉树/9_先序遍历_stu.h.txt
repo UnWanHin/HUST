@@ -1,0 +1,10 @@
+status PreOrderTraverse(BiTree T,void (*visit)(BiTree))
+//先序遍历二叉树T
+{
+    // 请在这里补充代码，完成本关任务
+    /********** Begin *********/
+    printf(" %d,%s",T->data.key,T->data.others);
+    if(T->lchild!=NULL) PreOrderTraverse(T->lchild,visit);
+    if(T->rchild!=NULL) PreOrderTraverse(T->rchild,visit);
+    /********** End **********/
+}

@@ -1,0 +1,24 @@
+void ShiftRightCircular(ElemType *A,int n,int k)
+{
+/************** begin *****************/
+    	k = (k>0)?k%n:-((-k) % n);
+	int p = (k > 0)?k:-k;
+	int b[p];
+		for(int i = 0;i < p;i++)
+        b[i] = A[i];
+	int t = 0,q = 0;
+    for(int i = 0;i < p;i++){
+        int m = i,flag = 0;
+        t = b[i];
+        while(!flag){
+        	m+=k;
+            if(m >= n) m-=n;
+            if(m < 0)m += n;
+            if(m < p) flag = 1;
+            q = A[m];
+            A[m] = t;
+            t = q;
+        }
+    }
+/**************  end  *****************/
+}
